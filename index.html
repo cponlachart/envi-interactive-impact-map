@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#050d14;font-family:'IBM Plex Sans Thai',system-ui,sans-serif;color:#e7f1f0;-webkit-font-smoothing:antialiased}
+#root[data-lang="th"] .en{display:none!important}
+#root[data-lang="en"] .th{display:none!important}
+.langbtn{appearance:none;border:0;background:transparent;color:#94abb0;font:600 12px/1 'Space Grotesk',sans-serif;padding:7px 13px;cursor:pointer;letter-spacing:.5px}
+#root[data-lang="th"] .langbtn[data-l="th"],#root[data-lang="en"] .langbtn[data-l="en"]{background:#26AB93;color:#04140f}
+.navlink{color:#9fb6b8;text-decoration:none;font:500 13px/1 'IBM Plex Sans Thai',sans-serif;padding:8px 11px;border-radius:7px;transition:.2s;white-space:nowrap}
+.navlink:hover{color:#eaf3f1;background:rgba(255,255,255,.06)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.bub{cursor:pointer;transition:opacity .2s}
+.railrow{cursor:pointer;transition:.15s}
+.railrow:hover{background:rgba(255,255,255,.05)}
+.viewbtn{appearance:none;cursor:pointer;font:600 13px/1 'IBM Plex Sans Thai',sans-serif;padding:11px 20px;border-radius:9px;border:1px solid rgba(255,255,255,.14);background:transparent;color:#9fb6b8;transition:.2s;display:flex;align-items:center;gap:8px}
+.viewbtn.on{background:#26AB93;border-color:#26AB93;color:#04140f}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+::selection{background:rgba(38,171,147,.4)}
+::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#1c3a44;border-radius:6px}::-webkit-scrollbar-track{background:#070f16}
+a{color:inherit}
+@media (max-width:860px){
+  #navlinks{display:none!important}
+  nav{padding:0 16px!important}
+  #hero-content{padding:100px 20px 0!important}
+  #hero-row{flex-wrap:wrap!important}
+  #hero h1 .th{font-size:40px!important}
+  #hero h1 .en{font-size:36px!important}
+  #hero-stats{padding:18px 20px!important;gap:16px 24px!important}
+  .reveal{padding-left:20px!important;padding-right:20px!important}
+  #root section h2{font-size:25px!important;line-height:1.18!important}
+  #explorer-grid{grid-template-columns:1fr!important}
+  #themes-host{grid-template-columns:1fr!important}
+  #sdg-host{grid-template-columns:repeat(2,1fr)!important}
+}
+@media (max-width:520px){
+  #hero-row>div:last-child{display:none!important}
+  #hero h1 .th{font-size:33px!important}
+  #hero h1 .en{font-size:29px!important}
+  #root section h2{font-size:22px!important}
+}
+</style>
+</helmet>
+
+<div id="root" data-lang="th" style="position:relative">
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#071824"/><circle cx="50" cy="50" r="22" fill="none" stroke="#26AB93" stroke-width="2.4"/><path d="M50 28 a22 22 0 0 1 0 44 M50 28 a22 22 0 0 0 0 44 M28 50 h44 M31 39 h38 M31 61 h38" fill="none" stroke="#26AB93" stroke-width="1.3" opacity=".55"/><circle cx="63" cy="40" r="3.2" fill="#34D6B4"/><circle cx="40" cy="58" r="2.4" fill="#34D6B4"/><text x="50" y="56" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="17" fill="#34D6B4">30</text></svg></template>
+
+<!-- ============ NAV ============ -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:50;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(5,11,17,.72);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.07)">
+<a href="#hero" style="display:flex;align-items:center;gap:13px;text-decoration:none">
+<img src="assets/logo-en-white.png" class="en" alt="PSU Faculty of Environmental Management" style="height:30px;display:block"/>
+<img src="assets/logo-th-white.png" class="th" alt="คณะการจัดการสิ่งแวดล้อม ม.อ." style="height:30px;display:block"/>
+<span style="height:24px;width:1px;background:rgba(255,255,255,.16)"></span>
+<span style="font:700 14px/1 'Space Grotesk',sans-serif;color:#34D6B4;letter-spacing:.5px">30 <span style="color:#9fb6b8;font-weight:500">YEARS</span></span>
+</a>
+<div style="display:flex;align-items:center;gap:2px" id="navlinks">
+<a class="navlink" href="#explorer"><span class="th">แผนที่</span><span class="en">Map</span></a>
+<a class="navlink" href="#timeline"><span class="th">เส้นทาง 30 ปี</span><span class="en">Timeline</span></a>
+<a class="navlink" href="#themes"><span class="th">สาขาวิจัย</span><span class="en">Themes</span></a>
+<a class="navlink" href="#sdg">SDG</a>
+<a class="navlink" href="#network"><span class="th">เครือข่าย</span><span class="en">Network</span></a>
+<a class="navlink" href="#research"><span class="th">ผลงานเด่น</span><span class="en">Highlights</span></a>
+<a class="navlink" href="#evolution"><span class="th">พัฒนาการ</span><span class="en">Growth</span></a>
+<a class="navlink" href="#trending"><span class="th">มาแรง</span><span class="en">Trending</span></a>
+</div>
+<div class="langseg" style="display:flex;border:1px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden">
+<button class="langbtn" data-l="th">ไทย</button><button class="langbtn" data-l="en">EN</button>
+</div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section id="hero" style="position:relative;min-height:100vh;overflow:hidden;background:radial-gradient(130% 100% at 74% 6%,#0d3142 0%,#08182404 0%,#071824 44%,#040b12 100%);scroll-margin-top:62px">
+<svg id="hero-map" data-w="1440" data-h="900" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%"></svg>
+<div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,11,18,.95) 0%,rgba(4,11,18,.6) 32%,rgba(4,11,18,0) 58%)"></div>
+<div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,11,18,.92) 2%,rgba(4,11,18,0) 30%)"></div>
+
+<div style="position:relative;z-index:3;max-width:1320px;margin:0 auto;padding:130px 48px 0" id="hero-content">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px" id="hero-row">
+<div style="max-width:660px">
+<div style="font:500 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase"><span class="th">Impact Map · แผนที่ผลกระทบงานวิจัย</span><span class="en">Impact Map · Research Impact Atlas</span></div>
+<h1 style="margin:18px 0 0">
+<span class="th" style="font:700 70px/1.03 'IBM Plex Sans Thai',sans-serif;letter-spacing:-.5px;display:block">จากความรู้<br>สู่ความยั่งยืน</span>
+<span class="en" style="font:700 66px/1.04 'Space Grotesk',sans-serif;letter-spacing:-1.5px;display:block">From Knowledge<br>to Sustainability</span>
+</h1>
+<div class="th" style="margin-top:16px;font:500 22px/1.35 'Space Grotesk',sans-serif;color:#bfe9df">From Knowledge to Sustainability</div>
+<div class="en" style="margin-top:16px;font:500 21px/1.4 'IBM Plex Sans Thai',sans-serif;color:#bfe9df">จากความรู้ สู่ความยั่งยืน</div>
+<p style="margin:22px 0 0;max-width:500px;font:400 16px/1.7 'IBM Plex Sans Thai',sans-serif;color:#a9c3c4">
+<span class="th">สามทศวรรษแห่งงานวิจัยด้านสิ่งแวดล้อม คณะการจัดการสิ่งแวดล้อม มหาวิทยาลัยสงขลานครินทร์ — สำรวจผลงาน เครือข่าย และผลกระทบที่แผ่ขยายไปทั่วโลก</span>
+<span class="en">Three decades of environmental research at the Faculty of Environmental Management, Prince of Songkla University — explore the publications, partnerships and impact reaching across the world.</span>
+</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex:none;margin-top:6px">
+<div style="width:104px;height:104px;border-radius:50%;border:1.5px solid rgba(38,171,147,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(38,171,147,.12),transparent 72%)">
+<span style="font:700 46px/0.9 'Space Grotesk',sans-serif;color:#34D6B4">30</span>
+<span style="font:600 9px/1 'Space Grotesk',sans-serif;letter-spacing:2px;color:#9fb6b8;margin-top:3px">YEARS</span>
+</div>
+<div style="font:400 12px/1.3 'IBM Plex Sans Thai',sans-serif;color:#7d9598">1996 — 2026</div>
+</div>
+</div>
+</div>
+
+<!-- hero stat bar -->
+<div style="position:absolute;left:0;right:0;bottom:0;z-index:3;border-top:1px solid rgba(38,171,147,.2);background:linear-gradient(0deg,rgba(4,11,18,.96),rgba(4,11,18,.3))">
+<div style="max-width:1320px;margin:0 auto;padding:22px 48px;display:flex;gap:38px;flex-wrap:wrap;align-items:center" id="hero-stats">
+<div><div style="font:700 36px/1 'Space Grotesk',sans-serif;color:#34D6B4"><span data-count="989">989</span></div><div style="margin-top:6px;font:400 12.5px/1.3;color:#9fb6b8"><span class="th">ผลงานวิจัย</span><span class="en">Publications</span></div></div>
+<div><div style="font:700 36px/1 'Space Grotesk',sans-serif;color:#e7f1f0"><span data-count="21843" data-fmt="comma">21,843</span></div><div style="margin-top:6px;font:400 12.5px/1.3;color:#9fb6b8"><span class="th">การอ้างอิง</span><span class="en">Citations</span></div></div>
+<div><div style="font:700 36px/1 'Space Grotesk',sans-serif;color:#e7f1f0"><span data-count="71">71</span></div><div style="margin-top:6px;font:400 12.5px/1.3;color:#9fb6b8"><span class="th">ประเทศ</span><span class="en">Countries</span></div></div>
+<div><div style="font:700 36px/1 'Space Grotesk',sans-serif;color:#e7f1f0"><span data-count="574">574</span></div><div style="margin-top:6px;font:400 12.5px/1.3;color:#9fb6b8"><span class="th">มหาวิทยาลัยเครือข่าย</span><span class="en">Partner universities</span></div></div>
+<div><div style="font:700 36px/1 'Space Grotesk',sans-serif;color:#e7f1f0"><span data-count="61">61</span>%</div><div style="margin-top:6px;font:400 12.5px/1.3;color:#9fb6b8"><span class="th">ความร่วมมือนานาชาติ</span><span class="en">International collaboration</span></div></div>
+<a href="#explorer" style="margin-left:auto;display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:#9fb6b8;animation:floaty 2.4s ease-in-out infinite">
+<span style="font:500 11px/1 'IBM Plex Sans Thai',sans-serif;letter-spacing:1px"><span class="th">เลื่อนเพื่อสำรวจ</span><span class="en">Scroll to explore</span></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34D6B4" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+</a>
+</div>
+</div>
+</section>
+
+<!-- ============ EXPLORER ============ -->
+<section id="explorer" style="background:#07131c;padding:88px 0 96px;scroll-margin-top:62px">
+<div class="reveal" style="max-width:1320px;margin:0 auto;padding:0 48px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+<div>
+<div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">01 — <span class="th">แผนที่สำรวจ</span><span class="en">Explore the Map</span></div>
+<h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif;max-width:760px"><span class="th">เครือข่ายความร่วมมือ และพื้นที่ศึกษา</span><span class="en">Collaboration network &amp; study sites</span></h2>
+<p style="margin:12px 0 0;max-width:640px;font:400 15px/1.65;color:#9fb6b8"><span class="th">สลับมุมมองระหว่าง <b style="color:#cfe0e2;font-weight:600">เครือข่ายความร่วมมือ</b> (ตามที่ตั้งสถาบัน) กับ <b style="color:#EFA23C;font-weight:600">พื้นที่ศึกษาจริง</b> (สกัดจากชื่อเรื่อง) — คลิก bubble หรือรายการเพื่อดูรายละเอียด</span><span class="en">Toggle between the <b style="color:#cfe0e2;font-weight:600">collaboration network</b> (by institution location) and <b style="color:#EFA23C;font-weight:600">actual study sites</b> (extracted from titles) — click any bubble or list item for detail.</span></p>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="viewbtn on" id="mode-network" data-mode="network"><span style="width:9px;height:9px;border-radius:50%;background:#34D6B4;display:inline-block"></span><span class="th">เครือข่ายความร่วมมือ</span><span class="en">Collaboration</span></button>
+<button class="viewbtn" id="mode-sites" data-mode="sites"><span style="width:9px;height:9px;border-radius:50%;background:#EFA23C;display:inline-block"></span><span class="th">พื้นที่ศึกษา</span><span class="en">Study Sites</span></button>
+</div>
+</div>
+
+<div style="margin-top:26px;display:grid;grid-template-columns:1fr 372px;gap:22px;align-items:stretch" id="explorer-grid">
+<div style="position:relative;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;background:radial-gradient(120% 120% at 62% 26%,#0a2230,#05101a);min-height:560px">
+<svg id="explore-map" data-w="900" data-h="600" viewBox="0 0 900 600" style="display:block;width:100%;height:auto"></svg>
+<div id="sites-subtoggle" style="position:absolute;left:14px;top:14px;z-index:4;display:none;gap:7px"></div>
+<div id="map-zoom" style="position:absolute;right:14px;bottom:14px;z-index:4;display:flex;flex-direction:column;gap:6px">
+<button id="zoom-in" aria-label="zoom in" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.16);background:rgba(7,16,22,.8);color:#cfe0e2;font:600 19px/1 'Space Grotesk',sans-serif;cursor:pointer;backdrop-filter:blur(4px)">+</button>
+<button id="zoom-out" aria-label="zoom out" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.16);background:rgba(7,16,22,.8);color:#cfe0e2;font:600 19px/1 'Space Grotesk',sans-serif;cursor:pointer;backdrop-filter:blur(4px)">−</button>
+<button id="zoom-reset" aria-label="reset zoom" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.16);background:rgba(7,16,22,.8);color:#cfe0e2;font:500 15px/1 'Space Grotesk',sans-serif;cursor:pointer;backdrop-filter:blur(4px)">↺</button>
+</div>
+<div id="explore-legend" style="position:absolute;left:18px;bottom:16px;display:flex;align-items:flex-end;gap:15px;pointer-events:none"></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="border:1px solid rgba(255,255,255,.08);border-radius:16px;background:#0a1822;padding:18px 18px 8px">
+<div style="font:600 11px/1.3 'Space Grotesk',sans-serif;letter-spacing:1.4px;color:#7d9598;text-transform:uppercase" id="rail-title"></div>
+<div id="explore-rail" style="margin-top:12px;display:flex;flex-direction:column;gap:2px;max-height:230px;overflow-y:auto"></div>
+</div>
+<div id="explore-detail" style="border:1px solid rgba(255,255,255,.08);border-radius:16px;background:linear-gradient(160deg,#0d2733,#091620);padding:20px;flex:1;min-height:200px"></div>
+</div>
+</div>
+<div id="explore-caption" style="margin-top:16px;font:400 12px/1.55 'IBM Plex Sans Thai',sans-serif;color:#7d9598;max-width:980px"></div>
+</div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section id="timeline" style="background:#0a1622;padding:88px 0 96px;scroll-margin-top:62px">
+<div class="reveal" style="max-width:1320px;margin:0 auto;padding:0 48px">
+<div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">02 — <span class="th">เส้นทาง 30 ปี</span><span class="en">30-Year Journey</span></div>
+<h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif"><span class="th">การเติบโตของผลงานและการอ้างอิง</span><span class="en">Growth of publications &amp; citations</span></h2>
+<p style="margin:12px 0 0;max-width:640px;font:400 15px/1.65;color:#9fb6b8"><span class="th">จากผลงานแรกในปี 1997 สู่จุดสูงสุด 139 ผลงานต่อปีในปี 2021 — สะท้อนการขยายตัวของงานวิจัยตลอดสามทศวรรษ</span><span class="en">From the first paper in 1997 to a peak of 139 per year in 2021 — three decades of accelerating output.</span></p>
+<div style="position:relative;margin-top:30px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:#08131c;padding:26px 26px 16px">
+<div style="display:flex;gap:22px;margin-bottom:18px">
+<span style="display:flex;align-items:center;gap:8px;font:500 13px/1;color:#cfe0e2"><span style="width:13px;height:13px;border-radius:3px;background:#26AB93"></span><span class="th">ผลงานต่อปี</span><span class="en">Publications / year</span></span>
+<span style="display:flex;align-items:center;gap:8px;font:500 13px/1;color:#cfe0e2"><span style="width:16px;height:3px;border-radius:2px;background:#F2C14E"></span><span class="th">การอ้างอิงสะสม</span><span class="en">Cumulative citations</span></span>
+</div>
+<svg id="timeline-svg" data-w="1180" data-h="360" viewBox="0 0 1180 360" style="display:block;width:100%;height:auto"></svg>
+<div id="timeline-tip" style="position:absolute;pointer-events:none;opacity:0;transform:translate(-50%,-118%);background:#04222a;border:1px solid rgba(38,171,147,.4);border-radius:10px;padding:10px 13px;font-family:'IBM Plex Sans Thai',sans-serif;white-space:nowrap;z-index:5;box-shadow:0 12px 30px rgba(0,0,0,.5)"></div>
+</div>
+</div>
+</section>
+
+<!-- ============ THEMES ============ -->
+<section id="themes" style="background:#07131c;padding:88px 0 96px;scroll-margin-top:62px">
+<div class="reveal" style="max-width:1320px;margin:0 auto;padding:0 48px">
+<div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">03 — <span class="th">สาขางานวิจัย</span><span class="en">Research Themes</span></div>
+<h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif"><span class="th">ความเชี่ยวชาญหลัก</span><span class="en">Where the research concentrates</span></h2>
+<p style="margin:12px 0 0;max-width:640px;font:400 15px/1.65;color:#9fb6b8"><span class="th">จำแนกผลงานตามคำสำคัญ (keywords) จากพลังงานหมุนเวียน ภูมิอากาศ ระบบนิเวศทางทะเล สู่การจัดการของเสียและมลพิษ</span><span class="en">Publications grouped by keyword themes — from renewable energy and climate to marine ecosystems, waste and pollution.</span></p>
+<div id="themes-host" style="margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:14px 40px"></div>
+</div>
+</section>
+
+<!-- ============ SDG ============ -->
+<section id="sdg" style="background:#0a1622;padding:88px 0 96px;scroll-margin-top:62px">
+<div class="reveal" style="max-width:1320px;margin:0 auto;padding:0 48px">
+<div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">04 — <span class="th">เป้าหมายการพัฒนาที่ยั่งยืน</span><span class="en">Sustainable Development Goals</span></div>
+<h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif"><span class="th">ผลกระทบต่อ SDGs ของสหประชาชาติ</span><span class="en">Contribution to the UN SDGs</span></h2>
+<p style="margin:12px 0 0;max-width:680px;font:400 15px/1.65;color:#9fb6b8"><span class="th">งานวิจัยของคณะฯ เชื่อมโยงกับเป้าหมาย SDGs โดยเฉพาะพลังงานสะอาด ระบบนิเวศทางบก-ทะเล และการรับมือสภาพภูมิอากาศ <span style="color:#6f878c">(ประเมินจากคำสำคัญ)</span></span><span class="en">The faculty's research aligns with the UN SDGs — led by clean energy, life on land &amp; below water and climate action <span style="color:#6f878c">(keyword-based estimate)</span></span></p>
+<div id="sdg-host" style="margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:13px"></div>
+</div>
+</section>
+
+<!-- ============ NETWORK ============ -->
+<section id="network" style="background:#07131c;padding:88px 0 96px;scroll-margin-top:62px">
+<div class="reveal" style="max-width:1320px;margin:0 auto;padding:0 48px">
+<div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">05 — <span class="th">เครือข่ายความร่วมมือ</span><span class="en">Collaboration Network</span></div>
+<h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif"><span class="th">สถาบันคู่ความร่วมมือหลัก</span><span class="en">Top partner institutions</span></h2>
+<p style="margin:12px 0 0;max-width:640px;font:400 15px/1.65;color:#9fb6b8"><span class="th">มหาวิทยาลัยสงขลานครินทร์เป็นศูนย์กลาง เชื่อมโยงกับสถาบันชั้นนำทั่วโลก — ขนาดของจุดแทนจำนวนผลงานร่วม สีแทนภูมิภาค</span><span class="en">Prince of Songkla University at the centre, linked to leading institutions worldwide — node size shows joint output, colour shows region.</span></p>
+<div style="position:relative;margin-top:26px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:radial-gradient(circle at 50% 46%,#0c2330,#06101a);overflow:hidden">
+<svg id="network-svg" data-w="1180" data-h="620" viewBox="0 0 1180 620" style="display:block;width:100%;height:auto"></svg>
+<div id="network-tip" style="position:absolute;pointer-events:none;opacity:0;transform:translate(-50%,-122%);background:#04222a;border:1px solid rgba(38,171,147,.4);border-radius:10px;padding:9px 13px;font-family:'IBM Plex Sans Thai',sans-serif;white-space:nowrap;z-index:5;box-shadow:0 12px 30px rgba(0,0,0,.5)"></div>
+<div id="region-legend" style="position:absolute;left:18px;top:16px;display:flex;flex-direction:column;gap:7px"></div>
+</div>
+</div>
+</section>
+
+<!-- ============ RESEARCH HIGHLIGHTS ============ -->
+<section id="research" style="background:#0a1622;padding:88px 0 96px;scroll-margin-top:62px">
+<div class="reveal" style="max-width:1320px;margin:0 auto;padding:0 48px">
+<div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">06 — <span class="th">ผลงานวิจัยเด่น</span><span class="en">Research Highlights</span></div>
+<h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif"><span class="th">ผลงานที่ถูกอ้างอิงสูงสุด</span><span class="en">Most-cited publications</span></h2>
+<p style="margin:12px 0 0;max-width:640px;font:400 15px/1.65;color:#9fb6b8"><span class="th">งานวิจัยที่สร้างผลกระทบทางวิชาการมากที่สุดของคณะฯ ตลอด 30 ปี</span><span class="en">The faculty's most academically influential work across 30 years.</span></p>
+<div id="research-host" style="margin-top:28px;display:flex;flex-direction:column;gap:11px"></div>
+</div>
+</section>
+
+<!-- ============ EVOLUTION ============ -->
+<section id="evolution" style="background:#07131c;padding:88px 0 96px;scroll-margin-top:62px">
+<div class="reveal" style="max-width:1320px;margin:0 auto;padding:0 48px">
+<div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">07 — <span class="th">พัฒนาการของสาขางานวิจัย</span><span class="en">Evolution of Research Areas</span></div>
+<h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif"><span class="th">สัดส่วนของสาขางานวิจัยตลอด 30 ปี</span><span class="en">How the mix of research areas grew over 30 years</span></h2>
+<p style="margin:12px 0 0;max-width:680px;font:400 15px/1.65;color:#9fb6b8"><span class="th">จากรากฐานงานป่าชายเลน-ทะเลในยุคแรก สู่การเติบโตอย่างก้าวกระโดดของงานด้าน<b style="color:#FCC30B;font-weight:600">พลังงานหมุนเวียน</b>ช่วงปี 2018–2022 — แต่ละสีคือหนึ่งกลุ่มงานหลัก (แบ่งตามธีมเด่นของแต่ละผลงาน)</span><span class="en">From its mangrove &amp; coastal foundations to strong growth in <b style="color:#FCC30B;font-weight:600">renewable energy</b> in 2018–2022 — each band is a major research stream.</span></p>
+<div id="evolution-legend" style="margin-top:22px;display:flex;flex-wrap:wrap;gap:10px 22px"></div>
+<div style="position:relative;margin-top:18px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:#08131c;padding:22px 22px 12px">
+<svg id="evolution-svg" data-w="1180" data-h="400" viewBox="0 0 1180 400" style="display:block;width:100%;height:auto"></svg>
+<div id="evolution-tip" style="position:absolute;pointer-events:none;opacity:0;transform:translate(-50%,-108%);background:#04222a;border:1px solid rgba(38,171,147,.4);border-radius:10px;padding:10px 13px;font-family:'IBM Plex Sans Thai',sans-serif;white-space:nowrap;z-index:5;box-shadow:0 12px 30px rgba(0,0,0,.5)"></div>
+</div>
+</div>
+</section>
+
+<!-- ============ TRENDING ============ -->
+<section id="trending" style="background:#0a1622;padding:88px 0 96px;scroll-margin-top:62px">
+<div class="reveal" style="max-width:1320px;margin:0 auto;padding:0 48px">
+<div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">08 — <span class="th">หัวข้อมาแรง</span><span class="en">Trending Topics</span></div>
+<h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif"><span class="th">คำสำคัญที่กำลังมาแรง</span><span class="en">Emerging keywords</span></h2>
+<p style="margin:12px 0 0;max-width:680px;font:400 15px/1.65;color:#9fb6b8"><span class="th">คำสำคัญที่ถูกใช้บ่อยที่สุด — ขนาดตามความถี่ สี<b style="color:#34D6B4;font-weight:600">เขียวมรกต</b>คือหัวข้อที่มาแรง (≥ 70% ตีพิมพ์ตั้งแต่ปี 2020)</span><span class="en">Most-used author keywords, sized by frequency. <b style="color:#34D6B4;font-weight:600">Teal</b> marks rising topics (≥ 70% published since 2020).</span></p>
+<div id="keywords-host" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:11px;align-items:center"></div>
+</div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer style="position:relative;background:radial-gradient(120% 130% at 50% 0%,#0d3142,#050d14 70%);padding:80px 48px 54px;text-align:center;border-top:1px solid rgba(38,171,147,.2)">
+<div style="width:92px;height:92px;border-radius:50%;border:1.5px solid rgba(38,171,147,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto;background:radial-gradient(circle,rgba(38,171,147,.12),transparent 72%)">
+<span style="font:700 40px/0.9 'Space Grotesk',sans-serif;color:#34D6B4">30</span>
+<span style="font:600 8px/1 'Space Grotesk',sans-serif;letter-spacing:2px;color:#9fb6b8;margin-top:3px">YEARS</span>
+</div>
+<div style="margin-top:24px;font:700 30px/1.2 'IBM Plex Sans Thai',sans-serif"><span class="th">จากความรู้ สู่ความยั่งยืน</span><span class="en">From Knowledge to Sustainability</span></div>
+<img src="assets/logo-en-white.png" class="en" style="height:50px;margin-top:26px;opacity:.92"/>
+<img src="assets/logo-th-white.png" class="th" style="height:50px;margin-top:26px;opacity:.92"/>
+<div style="margin-top:18px;font:400 13px/1.7;color:#7d9598">
+<span class="th">คณะการจัดการสิ่งแวดล้อม มหาวิทยาลัยสงขลานครินทร์ · ครบรอบ 30 ปี (2539–2569)</span>
+<span class="en">Faculty of Environmental Management, Prince of Songkla University · 30th Anniversary (1996–2026)</span>
+<br><span style="color:#56707a"><span class="th">ที่มาข้อมูล</span><span class="en">Data source</span>: Scopus · <span class="th">ปรับปรุงข้อมูล 30 มิ.ย. 2569 · ครอบคลุมผลงานถึงปี 2026</span><span class="en">updated 30 June 2026 · through 2026</span></span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  async componentDidMount(){
+    this.root = document.getElementById('root');
+    this.lang = 'th';
+    this.view = 'world';
+    this.mode = 'network';
+    this.netScope = 'world';
+    this.sel = null;
+    this.sitesScope = 'south';
+    document.querySelectorAll('.langbtn').forEach(b=>b.addEventListener('click',()=>{ this.lang=b.dataset.l; this.root.dataset.lang=this.lang; }));
+    document.getElementById('mode-network').addEventListener('click',()=>this.setMode('network'));
+    document.getElementById('mode-sites').addEventListener('click',()=>this.setMode('sites'));
+    this.animateCounters();
+    this.setupReveal();
+    try{
+      const txt = await (await fetch('./impact-data.js')).text();
+      this.data = JSON.parse(txt.replace(/^export default /,'').replace(/;\s*$/,''));
+      this.maxPubs = Math.max(...this.data.countries.map(c=>c.pubs));
+      const sj = await fetch('./study-sites.json').then(r=>r.json());
+      this.sites = sj.sites; this.sitesCov = sj.coverage; this.sitesSplit = sj.split; this.sitesBox = sj.southBox;
+    }catch(e){ console.error('data-load', e); try{ const b=document.createElement('div'); b.style.cssText='position:fixed;top:62px;left:0;right:0;z-index:99;background:#7a1f1f;color:#fff;padding:11px 16px;font:500 13px/1.55 sans-serif;text-align:center'; b.innerHTML='\u26a0\ufe0f Could not load data: <b>'+(e&&e.message||e)+'</b> \u2014 \u0e15\u0e49\u0e2d\u0e07\u0e2d\u0e31\u0e1b\u0e42\u0e2b\u0e25\u0e14 impact-data.js, study-sites.json, support.js \u0e41\u0e25\u0e30 assets/ \u0e04\u0e23\u0e1a\u0e43\u0e19\u0e23\u0e30\u0e14\u0e31\u0e1a\u0e40\u0e14\u0e35\u0e22\u0e27\u0e01\u0e31\u0e1a index.html'; document.body.appendChild(b); }catch(_){} return; }
+    this.buildThemes(); this.buildSDG(); this.buildResearch(); this.buildKeywords();
+    try{
+      await this.loadLibs();
+      this.world = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(r=>r.json());
+      this.land = window.topojson.feature(this.world,this.world.objects.countries);
+      this.thFeat = this.land.features.find(f=>f.properties&&f.properties.name==='Thailand') || this.land.features.find(f=>String(f.id)==='764');
+      this.drawHero();
+      this.renderExplorer();
+      this.setupZoom();
+      this.drawTimeline();
+      this.drawNetwork();
+      this.drawEvolution();
+    }catch(e){ console.error('map-init', e); }
+  }
+  loadLibs(){
+    const need=[['d3','https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js'],['topojson','https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js']];
+    return Promise.all(need.map(([g,u])=>window[g]?Promise.resolve():new Promise((res,rej)=>{const s=document.createElement('script');s.src=u;s.onload=res;s.onerror=rej;document.head.appendChild(s);})));
+  }
+  animateCounters(){
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const t=+el.dataset.count, comma=el.dataset.fmt==='comma', dur=1600, st=performance.now();
+      const tick=now=>{const k=Math.min(1,(now-st)/dur);const e=1-Math.pow(1-k,3);el.textContent=comma?Math.round(t*e).toLocaleString('en-US'):Math.round(t*e);if(k<1)requestAnimationFrame(tick);};
+      requestAnimationFrame(tick);
+    });
+  }
+  setupReveal(){
+    const io=new IntersectionObserver((es)=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  }
+  fmt(n){return n.toLocaleString('en-US');}
+  // ---------- HERO ----------
+  drawHero(){
+    const el=document.getElementById('hero-map'); if(!el)return;
+    const d3=window.d3,w=+el.dataset.w,h=+el.dataset.h;
+    const proj=d3.geoNaturalEarth1().fitSize([w*1.18,h*1.18],this.land);
+    proj.translate([proj.translate()[0]-w*0.02,proj.translate()[1]]);
+    const path=d3.geoPath(proj), r=d3.scaleSqrt().domain([0,this.maxPubs]).range([0,30]), TH=proj([101,15]);
+    let s=`<defs><filter id="hg" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="9"/></filter></defs>`;
+    s+=`<path d="${path(this.land)}" fill="#11242f" stroke="#1d3a45" stroke-width="0.55"/>`;
+    this.data.countries.forEach(c=>{if(c.name==='Thailand')return;const p=proj([c.lng,c.lat]);if(!p)return;const mx=(TH[0]+p[0])/2,my=(TH[1]+p[1])/2,dist=Math.hypot(p[0]-TH[0],p[1]-TH[1]),lift=Math.min(dist*0.3,140);s+=`<path d="M${TH[0]} ${TH[1]} Q${mx} ${my-lift} ${p[0]} ${p[1]}" fill="none" stroke="#34D6B4" stroke-width="0.7" opacity="${Math.max(.06,.4-dist/2600)}"/>`;});
+    this.data.countries.forEach(c=>{const p=proj([c.lng,c.lat]);if(!p)return;const rr=Math.max(2.2,r(c.pubs)),home=c.name==='Thailand',col=home?'#34D6B4':'#26AB93';s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${rr*2}" fill="${col}" opacity="0.16" filter="url(#hg)"/><circle cx="${p[0]}" cy="${p[1]}" r="${rr}" fill="${col}" opacity="0.92"/>`;if(home)s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${rr}" fill="none" stroke="#fff" stroke-width="1.1" opacity="0.55"><animate attributeName="r" values="${rr};${rr+18};${rr}" dur="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.55;0;0.55" dur="2.8s" repeatCount="indefinite"/></circle>`;});
+    el.innerHTML=s;
+  }
+  // ---------- EXPLORER ----------
+  setMode(m){ this.mode=m; this.sel=null; if(m==='network'){ this.view=this.netScope==='thai'?'thailand':'world'; } else { this.view='sites'; this.sitesScope=this.sitesScope||'south'; } document.getElementById('mode-network').classList.toggle('on',m==='network'); document.getElementById('mode-sites').classList.toggle('on',m==='sites'); this.renderExplorer(); }
+  setScope(s){ if(this.mode==='network'){ this.netScope=s; this.view=s==='thai'?'thailand':'world'; } else { this.sitesScope=s; } this.sel=null; this.renderExplorer(); }
+  renderExplorer(){ this.drawExploreMap(); this.buildRail(); this.renderDetail(); this.buildExploreLegend(); this.updateCaption(); this.renderSubToggle(); }
+  curList(){ if(this.view==='world')return this.data.countries; if(this.view==='thailand')return this.data.provinces; if(this.sitesScope==='south')return this.sites.filter(s=>s.inSouth); if(this.sitesScope==='thai')return this.sites.filter(s=>s.scope!=='intl'); return this.sites; }
+  updateCaption(){
+    const el=document.getElementById('explore-caption'); if(!el)return;
+    if(this.view==='sites'){ const c=this.sitesCov;
+      el.innerHTML=`<span class="th">⚑ พื้นที่ศึกษาสกัดจาก<b style="color:#cfe0e2">ชื่อเรื่องงานวิจัย</b> ครอบคลุม ${c.pct}% ของผลงาน (${c.matched}/${c.total}) — งานทบทวนวรรณกรรมและงานวัสดุ/พลังงานที่ไม่ระบุพื้นที่จะไม่ปรากฏบนแผนที่</span><span class="en">⚑ Study sites are extracted from <b style="color:#cfe0e2">publication titles</b>, covering ${c.pct}% of works (${c.matched}/${c.total}) — reviews and lab/materials studies without a named location are not shown.</span>`;
+    } else {
+      el.innerHTML=`<span class="th">⚐ ตำแหน่งอ้างอิงจาก<b style="color:#cfe0e2">ที่ตั้งสถาบันต้นสังกัด</b>ของผู้ร่วมวิจัย (เครือข่ายความร่วมมือ) ไม่ใช่จุดที่ลงพื้นที่เก็บข้อมูล</span><span class="en">⚐ Locations reflect the <b style="color:#cfe0e2">affiliation of co-authoring institutions</b> (collaboration network), not field study sites.</span>`;
+    }
+  }
+  setupZoom(){
+    if(!window.d3) return; const d3=window.d3;
+    const el=document.getElementById('explore-map'); if(!el) return;
+    this.zoom=d3.zoom().scaleExtent([1,8]).translateExtent([[0,0],[900,600]]).on('zoom',(ev)=>{ const g=document.getElementById('zoomlayer'); if(g)g.setAttribute('transform',ev.transform.toString()); });
+    const sel=d3.select(el); sel.call(this.zoom).on('dblclick.zoom',null);
+    const zi=document.getElementById('zoom-in'),zo=document.getElementById('zoom-out'),zr=document.getElementById('zoom-reset');
+    if(zi)zi.onclick=()=>sel.transition().duration(220).call(this.zoom.scaleBy,1.6);
+    if(zo)zo.onclick=()=>sel.transition().duration(220).call(this.zoom.scaleBy,1/1.6);
+    if(zr)zr.onclick=()=>sel.transition().duration(260).call(this.zoom.transform,d3.zoomIdentity);
+  }
+  renderSubToggle(){
+    const el=document.getElementById('sites-subtoggle'); if(!el)return;
+    el.style.display='flex';
+    const net=this.mode==='network';
+    const accent=net?'#34D6B4':'#EFA23C', onFg=net?'#04140f':'#1a1206';
+    const opts=net?[['world','โลก','World'],['thai','ไทย','Thailand']]:[['south','ภาคใต้','S. Thailand'],['thai','ไทย','Thailand'],['world','โลก','World']];
+    const cur=net?this.netScope:this.sitesScope;
+    const mk=([k,th,en])=>{const on=cur===k;return `<button data-scope="${k}" style="appearance:none;cursor:pointer;font:600 11.5px/1 'IBM Plex Sans Thai',sans-serif;padding:7px 13px;border-radius:8px;border:1px solid ${on?accent:'rgba(255,255,255,.16)'};background:${on?accent:'rgba(7,16,22,.78)'};color:${on?onFg:'#cdd8d6'};backdrop-filter:blur(4px)"><span class="th">${th}</span><span class="en">${en}</span></button>`;};
+    el.innerHTML=opts.map(mk).join('');
+    el.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>this.setScope(b.dataset.scope)));
+  }
+  renderSitesOverview(el){ const sp=this.sitesSplit;
+    el.innerHTML=`<div style="font:600 11px/1.3 'Space Grotesk',sans-serif;letter-spacing:1.4px;color:#7d9598;text-transform:uppercase"><span class="th">พื้นที่ศึกษา</span><span class="en">Study sites</span></div>
+    <div style="margin-top:14px;font:400 14px/1.7 'IBM Plex Sans Thai',sans-serif;color:#9fb6b8"><span class="th">สถานที่ที่งานวิจัยลงไปศึกษาจริง สกัดจากชื่อเรื่อง — คลิกที่จุดหรือรายการเพื่อดูตัวอย่างผลงาน</span><span class="en">Real-world locations the research studied, from titles — click a point or list item for example papers.</span></div>
+    <div style="margin-top:20px;display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(255,255,255,.08);padding-top:13px"><span style="font:400 13px/1.3;color:#9fb6b8"><span class="th">ภาคใต้ของไทย</span><span class="en">Southern Thailand</span></span><span style="font:700 22px/1 'Space Grotesk',sans-serif;color:#EFA23C">${sp.south}</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(255,255,255,.08);padding-top:13px"><span style="font:400 13px/1.3;color:#9fb6b8"><span class="th">ไทย (พื้นที่อื่น)</span><span class="en">Thailand (other)</span></span><span style="font:700 22px/1 'Space Grotesk',sans-serif;color:#e7f1f0">${sp.thai}</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(255,255,255,.08);padding-top:13px"><span style="font:400 13px/1.3;color:#9fb6b8"><span class="th">นานาชาติ</span><span class="en">International</span></span><span style="font:700 22px/1 'Space Grotesk',sans-serif;color:#e7f1f0">${sp.intl}</span></div>
+    </div>`;
+  }
+  renderSiteDetail(el,d){
+    const scopeLab={south:['ภาคใต้ของไทย','Southern Thailand'],thai:['ประเทศไทย','Thailand'],intl:['นานาชาติ','International']}[d.scope]||['',''];
+    let head=`<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><div style="font:700 20px/1.2 'IBM Plex Sans Thai',sans-serif;color:#fff"><span class="th">${d.nameTh||d.name}</span><span class="en">${d.name}</span></div><div style="margin-top:4px;font:400 12px/1.3;color:#EFA23C"><span class="th">${scopeLab[0]}</span><span class="en">${scopeLab[1]}</span></div></div><button id="detail-clear" style="appearance:none;border:1px solid rgba(255,255,255,.16);background:transparent;color:#9fb6b8;border-radius:7px;padding:5px 9px;cursor:pointer;font:500 11px/1 'IBM Plex Sans Thai',sans-serif">✕</button></div>`;
+    let stats=`<div style="margin-top:16px;display:flex;gap:24px"><div><div style="font:700 26px/1 'Space Grotesk',sans-serif;color:#EFA23C">${d.pubs}</div><div style="margin-top:4px;font:400 11.5px/1.3;color:#9fb6b8"><span class="th">ผลงานที่ศึกษาพื้นที่นี้</span><span class="en">Publications here</span></div></div><div><div style="font:700 26px/1 'Space Grotesk',sans-serif;color:#e7f1f0">${this.fmt(d.cit)}</div><div style="margin-top:4px;font:400 11.5px/1.3;color:#9fb6b8"><span class="th">การอ้างอิง</span><span class="en">Citations</span></div></div></div>`;
+    let ex=`<div style="margin-top:18px;font:600 11px/1.3 'Space Grotesk',sans-serif;letter-spacing:1.2px;color:#7d9598;text-transform:uppercase"><span class="th">ตัวอย่างผลงาน</span><span class="en">Example publications</span></div><div style="margin-top:11px;display:flex;flex-direction:column;gap:9px">`;
+    (d.examples||[]).forEach(t=>{ex+=`<div style="font:400 12.5px/1.45 'IBM Plex Sans Thai',sans-serif;color:#cfe0e2;padding-left:12px;border-left:2px solid rgba(239,162,60,.5)">${t}</div>`;});
+    ex+=`</div><div style="margin-top:14px;font:400 10.5px/1.5 'IBM Plex Sans Thai',sans-serif;color:#56707a"><span class="th">สกัดจากชื่อเรื่อง — อาจไม่ครบทุกผลงานที่เกี่ยวข้อง</span><span class="en">Extracted from titles — may not capture every related work.</span></div>`;
+    el.innerHTML=head+stats+ex;
+    const cb=document.getElementById('detail-clear'); if(cb)cb.addEventListener('click',()=>{this.sel=null;this.renderExplorer();});
+  }
+  drawExploreMap(){
+    const el=document.getElementById('explore-map'); if(!el||!window.d3)return;
+    const d3=window.d3,w=+el.dataset.w,h=+el.dataset.h;
+    const isSites=this.view==='sites', isTH=this.view==='thailand';
+    const isSouth=isSites && this.sitesScope==='south';
+    const sitesThai=isSites && this.sitesScope==='thai';
+    let list=this.curList();
+    if(isSites) list=list.filter(d=>d.name!=='Thailand (national)');
+    let proj;
+    if(isSouth){ const pts={type:'MultiPoint',coordinates:list.map(d=>[d.lng,d.lat])}; proj=d3.geoMercator().fitExtent([[48,46],[w-48,h-46]],pts); }
+    else if(isTH||sitesThai){ proj=d3.geoMercator().fitExtent([[w*0.30,28],[w*0.70,h-28]],this.thFeat); }
+    else { proj=d3.geoNaturalEarth1().fitSize([w,h],this.land); }
+    const path=d3.geoPath(proj);
+    const maxP=Math.max(...list.map(d=>d.pubs));
+    const r=d3.scaleSqrt().domain([0,maxP]).range([0, isTH?34:(isSouth?32:(sitesThai?30:(isSites?22:30)))]);
+    let s=`<defs><filter id="eg" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7"/></filter></defs>`;
+    s+=`<path d="${path(this.land)}" fill="#0f2029" stroke="#1a323d" stroke-width="0.5"/>`;
+    if(isTH||isSouth||sitesThai) s+=`<path d="${path(this.thFeat)}" fill="#15323a" stroke="#2c5a5a" stroke-width="0.8"/>`;
+    list.forEach(d=>{const p=proj([d.lng,d.lat]);if(!p)return;const rr=Math.max(isTH?6:(isSouth?5:(sitesThai?4:(isSites?3:2.2))),r(d.pubs));const home=d.name==='Thailand';const seld=this.sel&&this.sel.name===d.name;
+      let col,ring; if(isSites){col=seld?'#FFE6A8':'#EFA23C';ring='#FFFFFF';}else{col=seld?'#F2C14E':(home?'#34D6B4':'#26AB93');ring='#F2C14E';}
+      s+=`<g class="bub" data-name="${(d.name||'').replace(/"/g,'&quot;')}"><circle cx="${p[0]}" cy="${p[1]}" r="${rr*2}" fill="${col}" opacity="${seld?0.34:0.16}" filter="url(#eg)"/><circle cx="${p[0]}" cy="${p[1]}" r="${rr}" fill="${col}" opacity="0.92"/><circle cx="${p[0]}" cy="${p[1]}" r="${Math.max(rr,9)}" fill="transparent"/>`;
+      if(seld)s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${rr+5}" fill="none" stroke="${ring}" stroke-width="1.6" opacity="0.9"><animate attributeName="r" values="${rr+5};${rr+13};${rr+5}" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.9;0.2;0.9" dur="1.8s" repeatCount="indefinite"/></circle>`;
+      s+=`</g>`;});
+    el.innerHTML='<g id="zoomlayer">'+s+'</g>';
+    const key=this.view+'|'+(this.sitesScope||'');
+    if(this.zoom&&window.d3){ const d3z=window.d3; if(key!==this._lastMapKey){ this._lastMapKey=key; d3z.select(el).call(this.zoom.transform,d3z.zoomIdentity); } else { const g=document.getElementById('zoomlayer'); if(g)g.setAttribute('transform',d3z.zoomTransform(el).toString()); } }
+    el.querySelectorAll('.bub').forEach(g=>g.addEventListener('click',()=>{this.sel=this.curList().find(x=>x.name===g.dataset.name);this.renderExplorer();}));
+  }
+  buildExploreLegend(){
+    const el=document.getElementById('explore-legend'); if(!el)return;
+    const isSites=this.view==='sites';
+    const vals=isSites?[5,20,40]:(this.view==='world'?[10,80,800]:[10,100,800]);
+    const base=isSites?'rgba(239,162,60,.6)':'rgba(38,171,147,.55)', maxv=vals[vals.length-1];
+    el.innerHTML=`<span style="font:400 11px/1.3 'IBM Plex Sans Thai',sans-serif;color:#7d9598;margin-right:4px"><span class="th">ผลงาน</span><span class="en">Publications</span></span>`+vals.map(v=>{const rr=Math.max(4,Math.sqrt(v/maxv)*22);return `<span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:${rr*2}px;height:${rr*2}px;border-radius:50%;background:${base}"></span><span style="font:500 9px/1 'Space Grotesk',sans-serif;color:#7d9598">${v}</span></span>`;}).join('');
+  }
+  buildRail(){
+    const host=document.getElementById('explore-rail'),title=document.getElementById('rail-title'); if(!host)return;
+    const isSites=this.view==='sites';
+    title.innerHTML=this.view==='world'?'<span class="th">อันดับประเทศ</span><span class="en">Top countries</span>':this.view==='thailand'?'<span class="th">อันดับจังหวัด</span><span class="en">Top provinces</span>':(this.sitesScope==='south'?'<span class="th">พื้นที่ศึกษา · ภาคใต้</span><span class="en">Study sites · S. Thailand</span>':this.sitesScope==='thai'?'<span class="th">พื้นที่ศึกษา · ไทย</span><span class="en">Study sites · Thailand</span>':'<span class="th">พื้นที่ศึกษา · โลก</span><span class="en">Study sites · World</span>');
+    const list=this.curList().slice(0,isSites?(this.sitesScope==='south'?22:this.sitesScope==='thai'?24:18):(this.view==='world'?14:15)), max=list[0].pubs;
+    const accent=isSites?'#EFA23C':'#34D6B4', selBg=isSites?'rgba(239,162,60,.14)':'rgba(242,193,78,.12)', selFg=isSites?'#FFD27A':'#F2C14E';
+    host.innerHTML=list.map(d=>{const seld=this.sel&&this.sel.name===d.name;const label=isSites?(`<span class="th">${d.nameTh||d.name}</span><span class="en">${d.name}</span>`):d.name;return `<div class="railrow" data-name="${(d.name||'').replace(/"/g,'&quot;')}" style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:8px;${seld?'background:'+selBg+';':''}">
+      <span style="flex:1;font:400 12.5px/1.3 'IBM Plex Sans Thai',sans-serif;color:${seld?selFg:'#c4d4d6'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${label}</span>
+      <span style="width:70px;height:5px;border-radius:3px;background:rgba(255,255,255,.07);overflow:hidden"><span style="display:block;height:100%;width:${Math.round(d.pubs/max*100)}%;background:${seld?selFg:(isSites?'linear-gradient(90deg,#E8923C,#F2C14E)':'linear-gradient(90deg,#26AB93,#2BD4C8)')}"></span></span>
+      <span style="width:34px;text-align:right;font:600 12.5px/1 'Space Grotesk',monospace;color:${seld?selFg:accent}">${d.pubs}</span>
+    </div>`;}).join('');
+    host.querySelectorAll('.railrow').forEach(rw=>rw.addEventListener('click',()=>{this.sel=this.curList().find(x=>x.name===rw.dataset.name);this.renderExplorer();}));
+  }
+  renderDetail(){
+    const el=document.getElementById('explore-detail'); if(!el)return;
+    if(!this.sel){ if(this.view==='sites'){ this.renderSitesOverview(el); return; } const intl=this.data.totals; el.innerHTML=`<div style="font:600 11px/1.3 'Space Grotesk',sans-serif;letter-spacing:1.4px;color:#7d9598;text-transform:uppercase"><span class="th">ภาพรวม</span><span class="en">Overview</span></div>
+      <div style="margin-top:14px;font:400 14px/1.7 'IBM Plex Sans Thai',sans-serif;color:#9fb6b8"><span class="th">คลิกที่ bubble หรือเลือกจากรายการ เพื่อดูรายละเอียดสถาบันเครือข่ายในแต่ละพื้นที่</span><span class="en">Click a bubble or pick from the list to see partner institutions in each place.</span></div>
+      <div style="margin-top:20px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(255,255,255,.08);padding-top:13px"><span style="font:400 13px/1.3;color:#9fb6b8"><span class="th">ความร่วมมือนานาชาติ</span><span class="en">International collaboration</span></span><span style="font:700 22px/1 'Space Grotesk',sans-serif;color:#34D6B4">${intl.intlShare}%</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(255,255,255,.08);padding-top:13px"><span style="font:400 13px/1.3;color:#9fb6b8"><span class="th">ประเทศที่ครอบคลุม</span><span class="en">Countries reached</span></span><span style="font:700 22px/1 'Space Grotesk',sans-serif;color:#e7f1f0">${intl.countries}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(255,255,255,.08);padding-top:13px"><span style="font:400 13px/1.3;color:#9fb6b8"><span class="th">มหาวิทยาลัยเครือข่าย</span><span class="en">Partner universities</span></span><span style="font:700 22px/1 'Space Grotesk',sans-serif;color:#e7f1f0">${this.fmt(intl.partners)}</span></div>
+      </div>`; return; }
+    const d=this.sel; if(this.view==='sites'){ this.renderSiteDetail(el,d); return; } const regTh={'SE Asia':'เอเชียตะวันออกเฉียงใต้','East Asia':'เอเชียตะวันออก','South Asia':'เอเชียใต้','Middle East':'ตะวันออกกลาง','Europe':'ยุโรป','North America':'อเมริกาเหนือ','Oceania':'โอเชียเนีย','Africa':'แอฟริกา','Central Asia':'เอเชียกลาง','South America':'อเมริกาใต้','Other':'อื่นๆ'};
+    let head=`<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><div style="font:700 21px/1.2 'IBM Plex Sans Thai',sans-serif;color:#fff">${d.name}</div>`;
+    if(this.view==='world') head+=`<div style="margin-top:4px;font:400 12px/1.3;color:#7d9598">${regTh[d.region]?`<span class="th">${regTh[d.region]}</span><span class="en">${d.region}</span>`:d.region}</div>`;
+    else head+=`<div style="margin-top:4px;font:400 12px/1.3;color:#7d9598"><span class="th">จังหวัด</span><span class="en">Province</span></div>`;
+    head+=`</div><button id="detail-clear" style="appearance:none;border:1px solid rgba(255,255,255,.16);background:transparent;color:#9fb6b8;border-radius:7px;padding:5px 9px;cursor:pointer;font:500 11px/1 'IBM Plex Sans Thai',sans-serif">✕</button></div>`;
+    let stats=`<div style="margin-top:16px;display:flex;gap:24px">
+      <div><div style="font:700 26px/1 'Space Grotesk',sans-serif;color:#34D6B4">${d.pubs}</div><div style="margin-top:4px;font:400 11.5px/1.3;color:#9fb6b8"><span class="th">ผลงานร่วม</span><span class="en">Joint publications</span></div></div>`;
+    if(this.view==='world'&&d.cit!=null) stats+=`<div><div style="font:700 26px/1 'Space Grotesk',sans-serif;color:#e7f1f0">${this.fmt(d.cit)}</div><div style="margin-top:4px;font:400 11.5px/1.3;color:#9fb6b8"><span class="th">การอ้างอิง</span><span class="en">Citations</span></div></div>`;
+    stats+=`</div>`;
+    const insts=d.insts||[]; const maxi=insts.length?insts[0].pubs:1;
+    let il=`<div style="margin-top:18px;font:600 11px/1.3 'Space Grotesk',sans-serif;letter-spacing:1.2px;color:#7d9598;text-transform:uppercase">${d.name==='Thailand'||this.view==='thailand'?'<span class="th">สถาบันในพื้นที่</span><span class="en">Institutions</span>':'<span class="th">สถาบันเครือข่าย</span><span class="en">Partner institutions</span>'}</div><div style="margin-top:11px;display:flex;flex-direction:column;gap:9px">`;
+    if(insts.length) il+=insts.map(it=>`<div><div style="display:flex;justify-content:space-between;gap:10px"><span style="font:400 12.5px/1.35 'IBM Plex Sans Thai',sans-serif;color:#cfe0e2">${it.name}</span><span style="font:600 12px/1.3 'Space Grotesk',monospace;color:#34D6B4;flex:none">${it.pubs}</span></div><div style="margin-top:5px;height:4px;border-radius:2px;background:rgba(255,255,255,.06);overflow:hidden"><span style="display:block;height:100%;width:${Math.round(it.pubs/maxi*100)}%;background:linear-gradient(90deg,#26AB93,#2BD4C8)"></span></div></div>`).join('');
+    else il+=`<div style="font:400 12.5px/1.5;color:#7d9598"><span class="th">—</span></div>`;
+    il+=`</div>`;
+    el.innerHTML=head+stats+il;
+    const cb=document.getElementById('detail-clear'); if(cb)cb.addEventListener('click',()=>{this.sel=null;this.renderExplorer();});
+  }
+  // ---------- TIMELINE ----------
+  drawTimeline(){
+    const el=document.getElementById('timeline-svg'); if(!el||!window.d3)return;
+    const d3=window.d3,w=+el.dataset.w,h=+el.dataset.h,pad={l:14,r:14,t:14,b:34};
+    const ys=this.data.years, iw=w-pad.l-pad.r, ih=h-pad.t-pad.b;
+    const x=d3.scaleBand().domain(ys.map(d=>d.year)).range([pad.l,w-pad.r]).padding(.32);
+    const maxP=d3.max(ys,d=>d.pubs), y=d3.scaleLinear().domain([0,maxP]).range([h-pad.b,pad.t]);
+    let cum=0; const cumPts=ys.map(d=>{cum+=d.cit;return {year:d.year,c:cum};}); const maxC=cum;
+    const yc=d3.scaleLinear().domain([0,maxC]).range([h-pad.b,pad.t]);
+    let s=`<defs><linearGradient id="barg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34D6B4"/><stop offset="1" stop-color="#1c8f7a"/></linearGradient></defs>`;
+    [0,.25,.5,.75,1].forEach(t=>{const yy=pad.t+ih*t;s+=`<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;});
+    ys.forEach(d=>{const bx=x(d.year),bw=x.bandwidth(),by=y(d.pubs),bh=h-pad.b-by;s+=`<g class="tbar" data-year="${d.year}" style="cursor:pointer"><rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="2.5" fill="url(#barg)"/><rect x="${bx-3}" y="${pad.t}" width="${bw+6}" height="${ih+8}" fill="transparent"/></g>`;});
+    const line=cumPts.map((p,i)=>`${i?'L':'M'}${x(p.year)+x.bandwidth()/2} ${yc(p.c)}`).join(' ');
+    s+=`<path d="${line}" fill="none" stroke="#F2C14E" stroke-width="2.4" opacity="0.95"/>`;
+    cumPts.forEach(p=>{s+=`<circle cx="${x(p.year)+x.bandwidth()/2}" cy="${yc(p.c)}" r="2.6" fill="#F2C14E"/>`;});
+    ys.forEach((d,i)=>{if(i%3===0||i===ys.length-1)s+=`<text x="${x(d.year)+x.bandwidth()/2}" y="${h-12}" text-anchor="middle" font-family="'Space Grotesk',monospace" font-size="11" fill="#6f878c">${d.year}</text>`;});
+    el.innerHTML=s;
+    const tip=document.getElementById('timeline-tip'), rect=()=>el.getBoundingClientRect();
+    el.querySelectorAll('.tbar').forEach(g=>{
+      const yr=+g.dataset.year, d=ys.find(z=>z.year===yr), cu=cumPts.find(z=>z.year===yr).c;
+      g.addEventListener('mouseenter',e=>{ const R=rect(),sx=R.width/w; const cx=(x(yr)+x.bandwidth()/2)*sx, cy=y(d.pubs)*(R.height/h);
+        tip.style.left=cx+'px'; tip.style.top=cy+'px'; tip.style.opacity=1;
+        tip.innerHTML=`<div style="font:700 15px/1 'Space Grotesk',sans-serif;color:#34D6B4">${yr}</div><div style="margin-top:6px;font:400 12px/1.5;color:#cfe0e2">${d.pubs} <span style="color:#9fb6b8"><span class="th">ผลงาน</span><span class="en">publications</span></span><br>${this.fmt(d.cit)} <span style="color:#9fb6b8"><span class="th">การอ้างอิง</span><span class="en">citations</span></span></div>`;
+        this.root.dataset.lang=this.lang; });
+      g.addEventListener('mouseleave',()=>tip.style.opacity=0);
+    });
+  }
+  // ---------- THEMES ----------
+  buildThemes(){
+    const host=document.getElementById('themes-host'); if(!host)return;
+    const TH={'Energy & Renewables':'พลังงานและพลังงานหมุนเวียน','Climate & Ecosystems':'ภูมิอากาศและระบบนิเวศ','Marine & Coastal':'ทะเลและชายฝั่ง','Policy, Economy & Management':'นโยบาย เศรษฐกิจ และการจัดการ','Tourism & Recreation':'ท่องเที่ยวและนันทนาการ','Sustainability & Policy':'ความยั่งยืนและนโยบาย','Waste & Circular Economy':'ของเสียและเศรษฐกิจหมุนเวียน','Pollution & Contaminants':'มลพิษและสารปนเปื้อน','Health & Society':'สุขภาพและสังคม','Water & Wastewater':'น้ำและน้ำเสีย','Agriculture & Food':'เกษตรและอาหาร','Air & Atmosphere':'อากาศและบรรยากาศ'};
+    const cols=['#34D6B4','#26AB93','#2BD4C8','#3AA3DC','#5BD0E0','#7E8CE0','#9AD86A','#5fc9a8','#48b6c4'];
+    const list=this.data.themes, max=list[0].count;
+    host.innerHTML=list.map((t,i)=>`<div style="display:flex;align-items:center;gap:14px;padding:6px 0">
+      <div style="flex:1"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span style="font:500 15px/1.3 'IBM Plex Sans Thai',sans-serif;color:#e7f1f0"><span class="th">${TH[t.name]||t.name}</span><span class="en">${t.name}</span></span><span style="font:700 17px/1 'Space Grotesk',sans-serif;color:${cols[i%cols.length]}">${t.count}</span></div>
+      <div style="margin-top:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.06);overflow:hidden"><span style="display:block;height:100%;width:${Math.round(t.count/max*100)}%;background:linear-gradient(90deg,${cols[i%cols.length]},${cols[i%cols.length]}99);border-radius:4px"></span></div></div>
+    </div>`).join('');
+  }
+  // ---------- SDG ----------
+  buildSDG(){
+    const host=document.getElementById('sdg-host'); if(!host)return;
+    const TTH={1:'ขจัดความยากจน',2:'ขจัดความหิวโหย',3:'สุขภาพและความเป็นอยู่ที่ดี',4:'การศึกษาที่มีคุณภาพ',5:'ความเท่าเทียมทางเพศ',6:'น้ำสะอาดและสุขาภิบาล',7:'พลังงานสะอาดที่เข้าถึงได้',8:'งานที่มีคุณค่าและเศรษฐกิจ',9:'อุตสาหกรรมและนวัตกรรม',10:'ลดความเหลื่อมล้ำ',11:'เมืองและชุมชนยั่งยืน',12:'การผลิตและบริโภคที่ยั่งยืน',13:'การรับมือสภาพภูมิอากาศ',14:'ทรัพยากรทางทะเล',15:'ระบบนิเวศบนบก',16:'สันติภาพและสถาบันที่เข้มแข็ง',17:'ความร่วมมือเพื่อการพัฒนา'};
+    const max=Math.max(...this.data.sdgs.map(s=>s.count));
+    host.innerHTML=this.data.sdgs.map(s=>`<div style="border:1px solid rgba(255,255,255,.08);border-radius:13px;background:#0c1c26;padding:15px 15px 14px;position:relative;overflow:hidden;${s.count===0?'opacity:.4;':''}">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:${s.color}"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;border-radius:7px;background:${s.color};color:#fff;font:700 13px/1 'Space Grotesk',sans-serif;padding:0 7px">${s.num}</span><span style="font:700 24px/1 'Space Grotesk',sans-serif;color:#e7f1f0">${s.count}</span></div>
+      <div style="margin-top:11px;font:500 12.5px/1.35 'IBM Plex Sans Thai',sans-serif;color:#bcd0d2;min-height:34px"><span class="th">${TTH[s.num]}</span><span class="en">${s.title}</span></div>
+      <div style="margin-top:9px;height:4px;border-radius:2px;background:rgba(255,255,255,.06);overflow:hidden"><span style="display:block;height:100%;width:${Math.round(s.count/max*100)}%;background:${s.color}"></span></div>
+    </div>`).join('');
+  }
+  evTh(n){return {'Energy & Renewables':'พลังงานหมุนเวียน','Marine & Coastal':'ทะเลและชายฝั่ง','Climate & Ecosystems':'ภูมิอากาศ-ระบบนิเวศ','Waste & Circular':'ของเสีย-หมุนเวียน','Pollution & Health':'มลพิษ-สุขภาพ','Other':'อื่นๆ'}[n]||n;}
+  drawEvolution(){
+    const el=document.getElementById('evolution-svg'); if(!el||!window.d3)return;
+    const d3=window.d3,w=+el.dataset.w,h=+el.dataset.h,pad={l:42,r:16,t:14,b:30};
+    const ev=this.data.themeEvolution, yrs=ev.years, n=ev.names.length;
+    const ih=h-pad.t-pad.b;
+    const x=d3.scalePoint().domain(yrs).range([pad.l,w-pad.r]);
+    const totals=yrs.map((_,i)=>ev.values[i].reduce((a,b)=>a+b,0));
+    const maxTot=Math.max(...totals);
+    const y=d3.scaleLinear().domain([0,maxTot]).range([h-pad.b,pad.t]);
+    let s='';
+    [0,.25,.5,.75,1].forEach(t=>{const yy=pad.t+ih*t;s+=`<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="rgba(255,255,255,.05)"/>`;});
+    const cum=yrs.map(()=>0);
+    for(let si=0;si<n;si++){
+      const top=yrs.map((_,i)=>cum[i]+ev.values[i][si]);
+      let path='';
+      yrs.forEach((yr,i)=>{path+=`${i?'L':'M'}${x(yr).toFixed(1)} ${y(top[i]).toFixed(1)} `;});
+      for(let i=yrs.length-1;i>=0;i--){path+=`L${x(yrs[i]).toFixed(1)} ${y(cum[i]).toFixed(1)} `;}
+      path+='Z';
+      s+=`<path d="${path}" fill="${ev.colors[si]}" opacity="0.82"/>`;
+      yrs.forEach((_,i)=>cum[i]=top[i]);
+    }
+    yrs.forEach((yr,i)=>{if(i%3===0||i===yrs.length-1)s+=`<text x="${x(yr)}" y="${h-9}" text-anchor="middle" font-family="'Space Grotesk',monospace" font-size="10" fill="#6f878c">${yr}</text>`;});
+    [0,.5,1].forEach(t=>{const v=Math.round(maxTot*t);s+=`<text x="${pad.l-8}" y="${y(v)+3}" text-anchor="end" font-family="'Space Grotesk',monospace" font-size="10" fill="#6f878c">${v}</text>`;});
+    yrs.forEach((yr,i)=>{const x0=i===0?pad.l:(x(yrs[i-1])+x(yr))/2;const x1=i===yrs.length-1?w-pad.r:(x(yr)+x(yrs[i+1]))/2;s+=`<rect class="evcol" data-i="${i}" x="${x0}" y="${pad.t}" width="${x1-x0}" height="${ih}" fill="transparent"/>`;});
+    el.innerHTML=s;
+    const lg=document.getElementById('evolution-legend');
+    if(lg)lg.innerHTML=ev.names.map((nm,i)=>`<span style="display:flex;align-items:center;gap:7px;font:500 12.5px/1.3 'IBM Plex Sans Thai',sans-serif;color:#cfe0e2"><span style="width:13px;height:13px;border-radius:3px;background:${ev.colors[i]}"></span><span class="th">${this.evTh(nm)}</span><span class="en">${nm}</span></span>`).join('');
+    const tip=document.getElementById('evolution-tip'),rect=()=>el.getBoundingClientRect();
+    el.querySelectorAll('.evcol').forEach(rc=>{const i=+rc.dataset.i;
+      rc.addEventListener('mouseenter',()=>{const R=rect(),sx=R.width/w;const cx=x(yrs[i])*sx;tip.style.left=cx+'px';tip.style.top=(pad.t*(R.height/h))+'px';tip.style.opacity=1;
+        let rowsHtml=ev.names.map((nm,si)=>({nm,si,v:ev.values[i][si]})).filter(o=>o.v>0).sort((a,b)=>b.v-a.v).map(o=>`<div style="display:flex;align-items:center;gap:8px;margin-top:3px"><span style="width:9px;height:9px;border-radius:2px;background:${ev.colors[o.si]}"></span><span style="flex:1;color:#cfe0e2"><span class="th">${this.evTh(o.nm)}</span><span class="en">${o.nm}</span></span><span style="font:600 11px/1 'Space Grotesk',monospace;color:#fff">${o.v}</span></div>`).join('');
+        tip.innerHTML=`<div style="font:700 15px/1 'Space Grotesk',sans-serif;color:#34D6B4">${yrs[i]}</div><div style="margin-top:5px;font:400 11.5px/1.4">${rowsHtml}</div>`;this.root.dataset.lang=this.lang;});
+      rc.addEventListener('mouseleave',()=>tip.style.opacity=0);
+    });
+  }
+  buildAuthors(){
+    const host=document.getElementById('authors-host'); if(!host)return;
+    const list=this.data.topAuthors||[], max=list.length?list[0].pubs:1;
+    host.innerHTML=list.map((a,i)=>`<div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)" title="${this.fmt(a.cit)} citations">
+      <span style="width:22px;font:700 14px/1 'Space Grotesk',sans-serif;color:#26AB93">${i+1}</span>
+      <span style="flex:1;min-width:0;font:500 14px/1.3 'IBM Plex Sans Thai',sans-serif;color:#e7f1f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.name}</span>
+      <span style="width:96px;height:8px;border-radius:4px;background:rgba(255,255,255,.06);overflow:hidden"><span style="display:block;height:100%;width:${Math.round(a.pubs/max*100)}%;background:linear-gradient(90deg,#26AB93,#34D6B4)"></span></span>
+      <span style="width:34px;text-align:right;font:700 15px/1 'Space Grotesk',sans-serif;color:#34D6B4">${a.pubs}</span>
+    </div>`).join('');
+  }
+  buildKeywords(){
+    const host=document.getElementById('keywords-host'); if(!host)return;
+    const list=this.data.keywords||[], max=list.length?list[0].count:1;
+    host.innerHTML=list.map(k=>{const sz=14+Math.round(k.count/max*19);const hot=k.recentShare>=70;const col=hot?'#34D6B4':'#aebfc2';const bg=hot?'rgba(38,171,147,.13)':'rgba(255,255,255,.05)';const bd=hot?'rgba(52,214,180,.4)':'rgba(255,255,255,.08)';return `<span title="${k.count} • ${k.recentShare}% since 2020" style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:${bg};border:1px solid ${bd};font:600 ${sz}px/1 'IBM Plex Sans Thai',sans-serif;color:${col}">${k.term}<span style="font:600 11px/1 'Space Grotesk',monospace;color:${hot?'#34D6B4':'#6f878c'}">${k.count}</span></span>`;}).join('');
+  }
+  // ---------- NETWORK ----------
+  drawNetwork(){
+    const el=document.getElementById('network-svg'); if(!el||!window.d3)return;
+    const d3=window.d3,w=+el.dataset.w,h=+el.dataset.h,cx=w/2,cy=h/2;
+    const REGCOL={'SE Asia':'#34D6B4','East Asia':'#3AA3DC','South Asia':'#7E8CE0','Middle East':'#F2C14E','Europe':'#E08AB0','North America':'#5BD0E0','Oceania':'#9AD86A','Africa':'#E59866','Central Asia':'#c8d0d4','South America':'#C58AE0','Other':'#9aa'};
+    const REGTH={'SE Asia':'เอเชียตะวันออกเฉียงใต้','East Asia':'เอเชียตะวันออก','South Asia':'เอเชียใต้','Middle East':'ตะวันออกกลาง','Europe':'ยุโรป','North America':'อเมริกาเหนือ','Oceania':'โอเชียเนีย','Africa':'แอฟริกา','Central Asia':'เอเชียกลาง','South America':'อเมริกาใต้'};
+    const parts=[...this.data.partners].sort((a,b)=>{const o=Object.keys(REGCOL);return o.indexOf(a.region)-o.indexOf(b.region)||b.pubs-a.pubs;});
+    const N=parts.length, R=Math.min(w,h)*0.355, maxP=Math.max(...parts.map(p=>p.pubs));
+    const r=d3.scaleSqrt().domain([0,maxP]).range([4,24]);
+    const nodes=parts.map((p,i)=>{const a=(i/N)*2*Math.PI - Math.PI/2;return {...p,x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R,a};});
+    let s=`<defs><filter id="ng" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6"/></filter></defs>`;
+    nodes.forEach(n=>{const col=REGCOL[n.region]||'#9aa';const mx=(cx+n.x)/2,my=(cy+n.y)/2-Math.hypot(n.x-cx,n.y-cy)*0.12;s+=`<path d="M${cx} ${cy} Q${mx} ${my} ${n.x} ${n.y}" fill="none" stroke="${col}" stroke-width="${0.5+n.pubs/maxP*2}" opacity="0.34"/>`;});
+    nodes.forEach(n=>{const col=REGCOL[n.region]||'#9aa',rr=r(n.pubs);s+=`<g class="nnode" data-i="${n.name}" style="cursor:pointer"><circle cx="${n.x}" cy="${n.y}" r="${rr*1.9}" fill="${col}" opacity="0.16" filter="url(#ng)"/><circle cx="${n.x}" cy="${n.y}" r="${rr}" fill="${col}" opacity="0.92"/><circle cx="${n.x}" cy="${n.y}" r="${Math.max(rr,11)}" fill="transparent"/></g>`;});
+    // center PSU
+    s+=`<circle cx="${cx}" cy="${cy}" r="46" fill="#34D6B4" opacity="0.14" filter="url(#ng)"/><circle cx="${cx}" cy="${cy}" r="30" fill="#0c2a30" stroke="#34D6B4" stroke-width="1.6"/><text x="${cx}" y="${cy-2}" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="15" fill="#34D6B4">PSU</text><text x="${cx}" y="${cy+13}" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="8" fill="#9fb6b8">FEM</text>`;
+    el.innerHTML=s;
+    const tip=document.getElementById('network-tip'),rect=()=>el.getBoundingClientRect();
+    el.querySelectorAll('.nnode').forEach(g=>{const n=nodes.find(z=>z.name===g.dataset.i);
+      g.addEventListener('mouseenter',()=>{const R2=rect(),sx=R2.width/w,sy=R2.height/h;tip.style.left=(n.x*sx)+'px';tip.style.top=(n.y*sy)+'px';tip.style.opacity=1;tip.innerHTML=`<div style="font:600 13px/1.3 'IBM Plex Sans Thai',sans-serif;color:#fff;max-width:240px;white-space:normal">${n.name}</div><div style="margin-top:4px;font:400 11.5px/1.3;color:#9fb6b8">${REGTH[n.region]?`<span class="th">${REGTH[n.region]}</span><span class="en">${n.region}</span>`:n.region} · ${n.pubs} <span class="th">ผลงานร่วม</span><span class="en">joint</span></div>`;this.root.dataset.lang=this.lang;});
+      g.addEventListener('mouseleave',()=>tip.style.opacity=0);
+    });
+    // legend
+    const lg=document.getElementById('region-legend'); const used=[...new Set(parts.map(p=>p.region))];
+    lg.innerHTML=used.map(rg=>`<span style="display:flex;align-items:center;gap:7px;font:400 11px/1.2 'IBM Plex Sans Thai',sans-serif;color:#9fb6b8"><span style="width:9px;height:9px;border-radius:50%;background:${REGCOL[rg]}"></span>${REGTH[rg]?`<span class="th">${REGTH[rg]}</span><span class="en">${rg}</span>`:rg}</span>`).join('');
+  }
+  // ---------- RESEARCH ----------
+  buildResearch(){
+    const host=document.getElementById('research-host'); if(!host)return;
+    const SDGC={'SDG 1':'#E5243B','SDG 2':'#DDA63A','SDG 3':'#4C9F38','SDG 4':'#C5192D','SDG 5':'#FF3A21','SDG 6':'#26BDE2','SDG 7':'#FCC30B','SDG 8':'#A21942','SDG 9':'#FD6925','SDG 10':'#DD1367','SDG 11':'#FD9D24','SDG 12':'#BF8B2E','SDG 13':'#3F7E44','SDG 14':'#0A97D9','SDG 15':'#56C02B','SDG 16':'#00689D'};
+    host.innerHTML=this.data.topPubs.map((p,i)=>`<div style="display:flex;gap:18px;align-items:flex-start;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:#0b1924;padding:16px 18px">
+      <div style="font:700 22px/1 'Space Grotesk',sans-serif;color:#34D6B4;min-width:34px;padding-top:2px">${String(i+1).padStart(2,'0')}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font:600 15px/1.4 'IBM Plex Sans Thai',sans-serif;color:#eaf3f1">${p.title}</div>
+        <div style="margin-top:6px;font:400 12.5px/1.4;color:#8fa6a9">${p.authors}</div>
+        <div style="margin-top:7px;display:flex;flex-wrap:wrap;gap:7px;align-items:center"><span style="font:400 12px/1.3;color:#7d9598">${p.journal} · ${p.year}</span>${p.sdgs.map(sd=>`<span style="font:600 9.5px/1 'Space Grotesk',sans-serif;color:#fff;background:${SDGC[sd]||'#456'};padding:3px 6px;border-radius:4px">${sd.replace('SDG ','SDG ')}</span>`).join('')}</div>
+      </div>
+      <div style="text-align:right;flex:none"><div style="font:700 22px/1 'Space Grotesk',sans-serif;color:#F2C14E">${this.fmt(p.cit)}</div><div style="margin-top:3px;font:400 10.5px/1.2;color:#7d9598"><span class="th">การอ้างอิง</span><span class="en">citations</span></div></div>
+    </div>`).join('');
+  }
+}
+</script>
+</body>
+</html>
