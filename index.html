@@ -680,7 +680,7 @@ class Component extends DCLogic {
       : `<span class="th">แต่ละจุดคือหนึ่งคำสำคัญ วางอยู่ใน<b style="color:#cfe0e2;font-weight:600">เสี้ยวของสาขา</b>ที่มันสังกัด — ยิ่งเข้าใกล้<b style="color:#34D6B4;font-weight:600">ใจกลาง</b> ยิ่งเป็นหัวข้อที่มาแรง (สัดส่วนงานตั้งแต่ปี 2020 สูง) และขนาดจุดแทนจำนวนผลงาน คลิกหรือชี้ที่จุดเพื่อดูรายละเอียด</span><span class="en">Each dot is a keyword, placed in the <b style="color:#cfe0e2;font-weight:600">sector of its theme</b> — the closer to the <b style="color:#34D6B4;font-weight:600">core</b>, the more it is rising (higher share of work since 2020); dot size shows how many papers use it. Hover or tap a dot for detail.</span>`;
       this.root.dataset.lang=this.lang;
     }
-    if(!this.data.radar||!this.data.radar.keywords){ const svg=document.getElementById('trending-svg'); if(svg)svg.innerHTML=''; return; }
+    if(!this.data.radar||!this.data.radar.keywords){ const svg=document.getElementById('trending-svg'); if(svg){ svg.innerHTML=`<text x="500" y="300" text-anchor="middle" font-family="'IBM Plex Sans Thai',sans-serif" font-size="20" fill="#7d9598">⚠ ข้อมูลเรดาร์ไม่พบ — โปรดอัปโหลด impact-data.js เวอร์ชันล่าสุด</text><text x="500" y="332" text-anchor="middle" font-family="'IBM Plex Sans Thai',sans-serif" font-size="15" fill="#56707a">Radar data missing — please upload the latest impact-data.js (hard-refresh: Ctrl+F5)</text>`; } return; }
     if(this.radarMode==='works'){ this.renderWorksLegend(); this.drawRadarWorks(); }
     else { this.renderTopicsLegend(); this.drawRadarTopics(); }
   }
