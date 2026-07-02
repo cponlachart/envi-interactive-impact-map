@@ -262,6 +262,7 @@ a{color:inherit}
 </div>
 <div style="position:relative;margin-top:14px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:radial-gradient(circle at 50% 47%,#0c2130,#070f18);padding:12px">
 <svg id="trending-svg" data-w="1000" data-h="860" viewBox="0 0 1000 860" style="display:block;width:100%;height:auto"></svg>
+<button id="radar-reset" style="display:none;position:absolute;top:14px;right:14px;z-index:4;appearance:none;cursor:pointer;align-items:center;gap:6px;background:rgba(10,22,32,.85);border:1px solid rgba(52,214,180,.4);border-radius:9px;padding:7px 12px;font:600 11.5px/1 'IBM Plex Sans Thai',sans-serif;color:#34D6B4;backdrop-filter:blur(4px)"><span class="th">⟲ รีเซ็ตซูม</span><span class="en">⟲ Reset zoom</span></button>
 <div id="trending-tip" style="position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;transform:translate(-50%,-118%);background:#04222a;border:1px solid rgba(38,171,147,.4);border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans Thai',sans-serif;white-space:nowrap;z-index:5;box-shadow:0 12px 30px rgba(0,0,0,.5)"></div>
 </div>
 <div id="radar-legend" style="margin-top:16px;display:flex;flex-wrap:wrap;gap:11px 24px;align-items:center;font:400 12px/1.4 'IBM Plex Sans Thai',sans-serif;color:#8fa6a9">
@@ -301,7 +302,6 @@ a{color:inherit}
 <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center">
 <span style="display:flex;align-items:center;gap:8px;font:400 12px/1;color:#8fa6a9"><span style="width:22px;border-top:2px solid #4a6b74"></span><span class="th">หลักฐานวิชาการ</span><span class="en">Academic evidence</span></span>
 <span style="display:flex;align-items:center;gap:8px;font:400 12px/1;color:#8fa6a9"><span style="width:22px;border-top:2px dashed #EFA23C"></span><span class="th">ผลกระทบจริง</span><span class="en">Real-world impact</span></span>
-<span style="display:flex;align-items:center;gap:8px;font:400 12px/1;color:#8fa6a9"><span style="font:600 9px/1.4 'Space Grotesk',sans-serif;color:#34D6B4;border:1px solid rgba(52,214,180,.5);border-radius:4px;padding:2px 5px"><span class="th">อนาคต</span><span class="en">FUTURE</span></span><span class="th">= หัวข้อมาแรง</span><span class="en">= rising frontier</span></span>
 </div>
 <div id="value-host" style="margin-top:30px;display:grid;grid-template-columns:repeat(2,1fr);gap:20px"></div>
 </div>
@@ -682,6 +682,7 @@ class Component extends DCLogic {
       this.root.dataset.lang=this.lang;
     }
     if(!this.data.radar||!this.data.radar.keywords){ const svg=document.getElementById('trending-svg'); if(svg){ svg.innerHTML=`<text x="500" y="300" text-anchor="middle" font-family="'IBM Plex Sans Thai',sans-serif" font-size="20" fill="#7d9598">⚠ ข้อมูลเรดาร์ไม่พบ — โปรดอัปโหลด impact-data.js เวอร์ชันล่าสุด</text><text x="500" y="332" text-anchor="middle" font-family="'IBM Plex Sans Thai',sans-serif" font-size="15" fill="#56707a">Radar data missing — please upload the latest impact-data.js (hard-refresh: Ctrl+F5)</text>`; } return; }
+    const rb=document.getElementById('radar-reset'); if(rb) rb.style.display=this.radarMode==='works'?'inline-flex':'none';
     if(this.radarMode==='works'){ this.renderWorksLegend(); this.drawRadarWorks(); }
     else { this.renderTopicsLegend(); this.drawRadarTopics(); }
   }
@@ -788,7 +789,8 @@ class Component extends DCLogic {
     g+=`<text class="th" x="${cx}" y="${cy+15}" text-anchor="middle" font-family="'IBM Plex Sans Thai',sans-serif" font-size="11" fill="#8fa6a9">ผลงาน</text>`;
     g+=`<text class="en" x="${cx}" y="${cy+15}" text-anchor="middle" font-family="'IBM Plex Sans Thai',sans-serif" font-size="11" fill="#8fa6a9">works</text>`;
     svg.innerHTML='<g id="rzoom">'+g+'</g>';
-    if(window.d3){ const gz=svg.querySelector('#rzoom'); const z=d3.zoom().scaleExtent([1,7]).on('zoom',ev=>gz.setAttribute('transform',ev.transform)); d3.select(svg).call(z).on('dblclick.zoom',null); d3.select(svg).call(z.transform, d3.zoomIdentity); svg.style.cursor='grab'; }
+    if(window.d3){ const gz=svg.querySelector('#rzoom'); const z=d3.zoom().scaleExtent([1,7]).on('zoom',ev=>gz.setAttribute('transform',ev.transform)); d3.select(svg).call(z).on('dblclick.zoom',null); d3.select(svg).call(z.transform, d3.zoomIdentity); svg.style.cursor='grab';
+      const rb=document.getElementById('radar-reset'); if(rb){ rb.onclick=()=>{ d3.select(svg).transition().duration(320).call(z.transform, d3.zoomIdentity); }; } }
     const wrap=svg.parentElement;
     const show=(e,w)=>{ const ti=w.ti, dotc=ti>=0?colors[ti]:'#7d8890';
       tip.innerHTML=`<div style="display:flex;align-items:flex-start;gap:7px;max-width:320px"><span style="width:8px;height:8px;border-radius:50%;background:${dotc};flex:none;margin-top:4px"></span><span style="font:600 12.5px/1.35 'IBM Plex Sans Thai',sans-serif;color:#eaf3f1;white-space:normal">${w.t}</span></div><div style="margin-top:5px;padding-left:15px;font:400 11px/1.5 'IBM Plex Sans Thai',sans-serif;color:#9fb6b8;white-space:normal;max-width:320px"><i>${w.j}</i></div><div style="margin-top:3px;padding-left:15px;font:400 11.5px/1.5;color:#9fb6b8"><span style="color:#34D6B4;font-family:'Space Grotesk',sans-serif;font-weight:600">${w.y}</span> · <span style="color:#34D6B4;font-family:'Space Grotesk',sans-serif;font-weight:600">${w.c}</span> <span class="th">การอ้างอิง</span><span class="en">citations</span>${w.d?' · <span class="th">คลิกเปิด DOI</span><span class="en">click for DOI</span>':''}</div>`;
