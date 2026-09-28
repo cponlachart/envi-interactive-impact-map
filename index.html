@@ -412,10 +412,10 @@ class Component extends DCLogic {
     this.animateCounters();
     this.setupReveal();
     try{
-      const txt = await (await fetch('./impact-data.js')).text();
+      const txt = await (await fetch('./impact-data.js',{cache:'no-cache'})).text();
       this.data = JSON.parse(txt.replace(/^export default /,'').replace(/;\s*$/,''));
       this.maxPubs = Math.max(...this.data.countries.map(c=>c.pubs));
-      const sj = await fetch('./study-sites.json').then(r=>r.json());
+      const sj = await fetch('./study-sites.json',{cache:'no-cache'}).then(r=>r.json());
       this.sites = sj.sites; this.sitesCov = sj.coverage; this.sitesSplit = sj.split; this.sitesBox = sj.southBox;
     }catch(e){ console.error('data-load', e); try{ const b=document.createElement('div'); b.style.cssText='position:fixed;top:62px;left:0;right:0;z-index:99;background:#7a1f1f;color:#fff;padding:11px 16px;font:500 13px/1.55 sans-serif;text-align:center'; b.innerHTML='\u26a0\ufe0f Could not load data: <b>'+(e&&e.message||e)+'</b> \u2014 \u0e15\u0e49\u0e2d\u0e07\u0e2d\u0e31\u0e1b\u0e42\u0e2b\u0e25\u0e14 impact-data.js, study-sites.json, support.js \u0e41\u0e25\u0e30 assets/ \u0e04\u0e23\u0e1a\u0e43\u0e19\u0e23\u0e30\u0e14\u0e31\u0e1a\u0e40\u0e14\u0e35\u0e22\u0e27\u0e01\u0e31\u0e1a index.html'; document.body.appendChild(b); }catch(_){} return; }
     this.buildSDG(); this.buildKeywords(); this.buildValue(); this.buildPeople();
