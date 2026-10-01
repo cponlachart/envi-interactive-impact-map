@@ -34,6 +34,25 @@ body{margin:0;background:#050d14;font-family:'IBM Plex Sans Thai',system-ui,sans
 ::selection{background:rgba(38,171,147,.4)}
 ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#1c3a44;border-radius:6px}::-webkit-scrollbar-track{background:#070f16}
 a{color:inherit}
+html[data-theme="light"] body{background:#F4F7F6;color:#0B1A22}
+html[data-theme="light"] .langbtn{color:#4A5F66}
+html[data-theme="light"] #root[data-lang="th"] .langbtn[data-l="th"],html[data-theme="light"] #root[data-lang="en"] .langbtn[data-l="en"]{background:#0E8C76;color:#fff}
+html[data-theme="light"] .navlink{color:#3D5258}
+html[data-theme="light"] .navlink:hover{color:#0B1A22;background:rgba(11,26,34,.06)}
+html[data-theme="light"] .viewbtn{border-color:rgba(11,26,34,.16);color:#3D5258}
+html[data-theme="light"] .viewbtn.on{background:#0E8C76;border-color:#0E8C76;color:#fff}
+html[data-theme="light"] .railrow:hover{background:rgba(11,26,34,.04)}
+html[data-theme="light"] ::selection{background:rgba(14,140,118,.22)}
+html[data-theme="light"] ::-webkit-scrollbar-thumb{background:#c3d1d1}
+html[data-theme="light"] ::-webkit-scrollbar-track{background:#eef3f2}
+html[data-theme="light"] img[src*="-white.png"]{filter:brightness(0);opacity:.8!important}
+html[data-theme="light"] [filter*="#hg"],html[data-theme="light"] [filter*="#eg"]{opacity:.4}
+html[data-theme="light"] .land{fill:#d5e0df;stroke:#aebfbf;stroke-width:.6}
+html[data-theme="light"] .land-th{fill:#b9d9d1;stroke:#5e9c90;stroke-width:.9}
+html[data-theme="light"] #hero-map circle[opacity="0.92"],html[data-theme="light"] #explore-map circle[opacity="0.92"]{stroke:#fff;stroke-width:.8}
+html[data-theme="light"] .tm-sun{display:none}
+html:not([data-theme="light"]) .tm-moon{display:none}
+@media (max-width:1000px){#navlinks{display:none!important}}
 @media (max-width:860px){
   #navlinks{display:none!important}
   nav{padding:0 16px!important}
@@ -80,7 +99,8 @@ a{color:inherit}
 <a class="navlink" href="#value"><span class="th">คุณค่า</span><span class="en">Value</span></a>
 <a class="navlink" href="#people"><span class="th">ผู้คน</span><span class="en">People</span></a>
 </div>
-<div class="langseg" style="display:flex;border:1px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden">
+<button id="theme-btn" aria-label="Toggle light / dark theme" title="Light / Dark" style="appearance:none;width:34px;height:32px;flex-shrink:0;margin-right:10px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:transparent;color:#9fb6b8;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0"><svg class="tm-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"></path></svg><svg class="tm-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></button>
+<div class="langseg" style="flex-shrink:0;display:flex;border:1px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden">
 <button class="langbtn" data-l="th">ไทย</button><button class="langbtn" data-l="en">EN</button>
 </div>
 </nav>
@@ -118,7 +138,7 @@ a{color:inherit}
 
 <!-- hero stat bar -->
 <div style="position:absolute;left:0;right:0;bottom:0;z-index:3;border-top:1px solid rgba(38,171,147,.2);background:linear-gradient(0deg,rgba(4,11,18,.96),rgba(4,11,18,.3))">
-<div style="max-width:1320px;margin:0 auto;padding:22px clamp(20px,3.4vw,48px);display:flex;gap:clamp(14px,2.4vw,38px);flex-wrap:nowrap;align-items:center;overflow-x:auto" id="hero-stats">
+<div style="max-width:1320px;margin:0 auto;padding:22px clamp(20px,3.4vw,48px);display:flex;gap:clamp(14px,2.4vw,38px);flex-wrap:nowrap;align-items:flex-start;overflow-x:auto" id="hero-stats">
 <div><div style="font:700 clamp(21px,2.5vw,36px)/1 'Space Grotesk',sans-serif;color:#34D6B4"><span data-count="1192" data-fmt="comma">1,192</span></div><div style="margin-top:6px;font:400 clamp(10.5px,1vw,12.5px)/1.3 'IBM Plex Sans Thai',sans-serif;white-space:nowrap;color:#9fb6b8"><span class="th">ผลงานวิจัย</span><span class="en">Publications</span></div><div style="margin-top:4px;font:500 11px/1.3 'IBM Plex Sans Thai',sans-serif;color:#9ad9ea;white-space:nowrap">Scopus 1,016 · TCI 176</div></div>
 <div><div style="font:700 clamp(21px,2.5vw,36px)/1 'Space Grotesk',sans-serif;color:#e7f1f0"><span data-count="21893" data-fmt="comma">21,893</span>+</div><div style="margin-top:6px;font:400 clamp(10.5px,1vw,12.5px)/1.3 'IBM Plex Sans Thai',sans-serif;white-space:nowrap;color:#9fb6b8"><span class="th">การอ้างอิง</span><span class="en">Citations</span></div><div style="margin-top:4px;font:500 11px/1.3 'IBM Plex Sans Thai',sans-serif;color:#6f878c;white-space:nowrap"><span class="th">(Scopus)</span><span class="en">(Scopus)</span></div></div>
 <div><div style="font:700 clamp(21px,2.5vw,36px)/1 'Space Grotesk',sans-serif;color:#e7f1f0"><span data-count="71">71</span></div><div style="margin-top:6px;font:400 clamp(10.5px,1vw,12.5px)/1.3 'IBM Plex Sans Thai',sans-serif;white-space:nowrap;color:#9fb6b8"><span class="th">ประเทศ</span><span class="en">Countries</span></div><div style="margin-top:4px;font:500 11px/1.3 'IBM Plex Sans Thai',sans-serif;color:#6f878c;white-space:nowrap"><span class="th">(Scopus)</span><span class="en">(Scopus)</span></div></div>
@@ -149,7 +169,7 @@ a{color:inherit}
 <div class="reveal" style="max-width:1320px;margin:0 auto;padding:0 48px">
 <div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">01 — <span class="th">เส้นทาง 30 ปี</span><span class="en">30-Year Journey</span></div>
 <h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif"><span class="th">การเติบโตของผลงานและการอ้างอิง</span><span class="en">Growth of publications &amp; citations</span></h2>
-<p style="margin:12px 0 0;max-width:760px;font:400 15px/1.65;color:#9fb6b8"><span class="th">จากหลักสูตรแรกในปี 2531 และการตั้งคณะฯ ในปี 2539 สู่ 13 หลักสูตรที่เปิดตลอดเส้นทาง — ผลงานเติบโตตามจังหวะของคณะฯ ตั้งแต่ ป.เอกรุ่นแรกในปี 2546 ถึงการควบรวมสถาบันทรัพยากรทะเลและชายฝั่งในปี 2563 ก่อนผลงานแตะจุดสูงสุด 140 ชิ้นในปี 2021</span><span class="en">From the first MSc in 1988 and the faculty’s founding in 1996 to 13 programmes opened along the way — output grew with each step, from the first PhD in 2003 to the 2020 merger with the Marine and Coastal Resources Institute, just before the 2021 peak of 140 papers.</span></p>
+<p style="margin:12px 0 0;max-width:760px;font:400 15px/1.65;color:#9fb6b8"><span class="th">จากหลักสูตรแรกในปี 2531 และการตั้งคณะฯ ในปี 2539 สู่ 13 หลักสูตรที่เปิดตลอดเส้นทาง — ผลงานเติบโตตามจังหวะของคณะฯ ตั้งแต่ ป.เอกรุ่นแรกในปี 2546 ถึงการควบรวมสถาบันทรัพยากรทะเลและชายฝั่งในปี 2563 ก่อนผลงานแตะจุดสูงสุด 140 ชิ้นในปี 2564</span><span class="en">From the first MSc in 1988 and the faculty’s founding in 1996 to 13 programmes opened along the way — output grew with each step, from the first PhD in 2003 to the 2020 merger with the Marine and Coastal Resources Institute, just before the 2021 peak of 140 papers.</span></p>
 <div style="position:relative;margin-top:30px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:#08131c;padding:26px 26px 16px">
 <div style="display:flex;flex-wrap:wrap;gap:12px 22px;margin-bottom:18px">
 <span style="display:flex;align-items:center;gap:8px;font:500 13px/1;color:#cfe0e2"><span style="width:13px;height:13px;border-radius:3px;background:#26AB93"></span><span class="th">ผลงานต่อปี (Scopus)</span><span class="en">Publications / year (Scopus)</span></span>
@@ -293,7 +313,7 @@ a{color:inherit}
 <div style="font:600 13px/1.4 'IBM Plex Sans Thai',sans-serif;letter-spacing:2px;color:#26AB93;text-transform:uppercase">06 — <span class="th">เป้าหมายการพัฒนาที่ยั่งยืน</span><span class="en">Sustainable Development Goals</span></div>
 <h2 style="margin:12px 0 0;font:700 38px/1.12 'IBM Plex Sans Thai',sans-serif"><span class="th">ผลกระทบต่อ SDGs ของสหประชาชาติ</span><span class="en">Contribution to the UN SDGs</span></h2>
 <p style="margin:12px 0 0;max-width:680px;font:400 15px/1.65;color:#9fb6b8"><span class="th">งานวิจัยของคณะฯ เชื่อมโยงกับเป้าหมาย SDGs — เรียงตามจำนวนผลงาน นำโดยพลังงานสะอาด ระบบนิเวศทางบก-ทะเล และการรับมือสภาพภูมิอากาศ <span style="color:#6f878c">(ประเมินจากคำสำคัญ · สีตามรหัสทางการของ UN · ตัวเลขหลักจาก Scopus, “+TCI” คือบทความวารสารไทยที่ไม่ซ้ำ Scopus)</span></span><span class="en">The faculty's research aligns with the UN SDGs — ranked by output, led by clean energy, life on land &amp; below water and climate action <span style="color:#6f878c">(keyword-based estimate · official UN goal colours · main figure from Scopus; “+TCI” = Thai-journal papers not in Scopus)</span></span></p>
-<div id="sdg-host" style="margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px"></div>
+<div id="sdg-host" data-theme-keep="1" style="margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px"></div>
 </div>
 </section>
 
@@ -423,7 +443,58 @@ a{color:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
 class Component extends DCLogic {
+  initTheme(){
+    const KEY='fem-theme', H=document.documentElement, root=document.getElementById('root');
+    const RE=/#[0-9a-fA-F]{3,8}\b|rgba?\([^)]*\)|\bwhite\b|\bblack\b/g;
+    const parse=m=>{m=m.trim();if(m==='white')return[255,255,255,1];if(m==='black')return[0,0,0,1];
+      if(m[0]==='#'){let h=m.slice(1);if(h.length<5)h=h.split('').map(c=>c+c).join('');const n=i=>parseInt(h.slice(i,i+2),16);return[n(0),n(2),n(4),h.length>6?n(6)/255:1];}
+      const p=m.replace(/rgba?\(|\)/g,'').split(/[\s,\/]+/).filter(Boolean).map(parseFloat);if(p.length<3||p.some(isNaN))return null;return[p[0],p[1],p[2],p[3]==null?1:p[3]];};
+    const toHsl=(r,g,b)=>{r/=255;g/=255;b/=255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2;let h=0,s=0;if(mx!==mn){const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4;h/=6;}return[h,s,l];};
+    const toRgb=(h,s,l)=>{if(!s){const v=l*255;return[v,v,v];}const q=l<.5?l*(1+s):l+s-l*s,p=2*l-q,f=t=>{t=(t+1)%1;return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p;};return[f(h+1/3)*255,f(h)*255,f(h-1/3)*255];};
+    const PTS=[[0,.975],[.1,.94],[.25,.86],[.4,.66],[.55,.42],[.7,.29],[.85,.17],[1,.07]];
+    const curve=l=>{for(let i=1;i<PTS.length;i++){const[a,b]=PTS[i-1],[c,d]=PTS[i];if(l<=c)return b+(d-b)*(l-a)/(c-a);}return .07;};
+    const xc=(rgba,role)=>{const[r,g,b,a]=rgba,c=(Math.max(r,g,b)-Math.min(r,g,b))/255,[h,s,l]=toHsl(r,g,b);let nl=l,ns=s,na=a;
+      const neutral=c<.18||l>.9;
+      if(role!=='text'&&role!=='shadow'&&a<.3){if(neutral&&l>.6)na=Math.min(1,a*2.2);else if(!neutral&&l>=.25)na=Math.min(1,a*1.9);}
+      if(role==='shadow'){if(neutral&&l<.2)return[0,0,0,a*.3];if(neutral){nl=curve(l);ns=s*.4;}else{nl=Math.min(l,.45);na=a*.6;}}
+      else if(neutral){if(role==='text'&&l<.12)return rgba;nl=curve(l);ns=Math.min(s*.5,.22);}
+      else if(l<.25){nl=curve(l);ns=s*.55;}
+      else nl=Math.min(l,role==='text'?.36:role==='line'?.42:.5);
+      const[R,G,B]=toRgb(h,ns,nl);return[R,G,B,na];};
+    const fmt=([r,g,b,a])=>{r=Math.round(r);g=Math.round(g);b=Math.round(b);return a<1?`rgba(${r}, ${g}, ${b}, ${+a.toFixed(3)})`:`rgb(${r}, ${g}, ${b})`;};
+    const xf=(v,role)=>v.replace(RE,m=>{const p=parse(m);return p?fmt(xc(p,role)):m;});
+    const isText=el=>/^(text|tspan|textPath)$/i.test(el.tagName);
+    const roleOf=(p,el)=>{if(p==='color'||p==='-webkit-text-fill-color')return'text';if(p.includes('shadow'))return'shadow';
+      if(p==='fill')return isText(el)?'text':'bg';if(p.startsWith('background')||p==='stop-color'||p==='flood-color')return'bg';
+      if(p.includes('color')||p==='stroke'||p.startsWith('border'))return'line';return null;};
+    const ATTRS=['fill','stroke','stop-color','flood-color'];
+    const data=new WeakMap(), tracked=new Set(); let light=false;
+    const apply=el=>{if(el.nodeType!==1||el.closest('[data-theme-keep]'))return;let d=data.get(el);
+      if(!d){if(!light)return;d={s:{},sl:{},a:{},al:{}};data.set(el,d);}
+      const st=el.style;
+      if(st){const cur={};for(let i=0;i<st.length;i++){const p=st[i];cur[p]=st.getPropertyValue(p);}
+        for(const p in cur)if(!(d.sl[p]!==undefined&&cur[p]===d.sl[p]))d.s[p]=cur[p];
+        for(const p in d.s)if(!(p in cur))delete d.s[p];
+        for(const p in d.s){const role=roleOf(p,el);if(!role)continue;
+          const want=light?xf(d.s[p],role):d.s[p];
+          if(want!==cur[p]&&(light||d.sl[p]!==undefined)){if(light&&want===d.s[p]&&d.sl[p]===undefined)continue;st.setProperty(p,want,st.getPropertyPriority(p));}
+          if(light&&want!==d.s[p])d.sl[p]=st.getPropertyValue(p);else delete d.sl[p];}}
+      for(const a of ATTRS){if(!el.hasAttribute(a)){delete d.a[a];delete d.al[a];continue;}const cur=el.getAttribute(a);
+        if(!(d.al[a]!==undefined&&cur===d.al[a]))d.a[a]=cur;
+        const role=a==='fill'&&isText(el)?'text':a==='stroke'?'line':'bg';const want=light?xf(d.a[a],role):d.a[a];
+        if(want!==cur)el.setAttribute(a,want);if(light&&want!==d.a[a])d.al[a]=want;else delete d.al[a];}
+      if(light)tracked.add(el);};
+    const walk=n=>{if(n.nodeType!==1)return;apply(n);n.querySelectorAll('*').forEach(apply);};
+    const mo=new MutationObserver(recs=>{for(const r of recs){if(r.type==='attributes')apply(r.target);else r.addedNodes.forEach(walk);}});
+    const set=t=>{light=t==='light';H.dataset.theme=t;try{localStorage.setItem(KEY,t);}catch(e){}
+      if(light){walk(root);mo.observe(root,{subtree:true,childList:true,attributes:true,attributeFilter:['style',...ATTRS]});}
+      else{mo.disconnect();tracked.forEach(el=>{apply(el);data.delete(el);});tracked.clear();}};
+    let saved='dark';try{saved=localStorage.getItem(KEY)||'dark';}catch(e){}
+    set(saved);
+    document.getElementById('theme-btn')?.addEventListener('click',()=>set(light?'dark':'light'));
+  }
   async componentDidMount(){
+    this.initTheme();
     this.root = document.getElementById('root');
     this.lang = 'th';
     this.view = 'world';
@@ -481,7 +552,7 @@ class Component extends DCLogic {
     proj.translate([proj.translate()[0]-w*0.02,proj.translate()[1]]);
     const path=d3.geoPath(proj), r=d3.scaleSqrt().domain([0,this.maxPubs]).range([0,30]), TH=proj([101,15]);
     let s=`<defs><filter id="hg" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="9"/></filter></defs>`;
-    s+=`<path d="${path(this.land)}" fill="#11242f" stroke="#1d3a45" stroke-width="0.55"/>`;
+    s+=`<path class="land" d="${path(this.land)}" fill="#11242f" stroke="#1d3a45" stroke-width="0.55"/>`;
     this.data.countries.forEach(c=>{if(c.name==='Thailand')return;const p=proj([c.lng,c.lat]);if(!p)return;const mx=(TH[0]+p[0])/2,my=(TH[1]+p[1])/2,dist=Math.hypot(p[0]-TH[0],p[1]-TH[1]),lift=Math.min(dist*0.3,140);s+=`<path d="M${TH[0]} ${TH[1]} Q${mx} ${my-lift} ${p[0]} ${p[1]}" fill="none" stroke="#34D6B4" stroke-width="0.7" opacity="${Math.max(.06,.4-dist/2600)}"/>`;});
     this.data.countries.forEach(c=>{const p=proj([c.lng,c.lat]);if(!p)return;const rr=Math.max(2.2,r(c.pubs)),home=c.name==='Thailand',col=home?'#34D6B4':'#26AB93';s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${rr*2}" fill="${col}" opacity="0.16" filter="url(#hg)"/><circle cx="${p[0]}" cy="${p[1]}" r="${rr}" fill="${col}" opacity="0.92"/>`;if(home)s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${rr}" fill="none" stroke="#fff" stroke-width="1.1" opacity="0.55"><animate attributeName="r" values="${rr};${rr+18};${rr}" dur="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.55;0;0.55" dur="2.8s" repeatCount="indefinite"/></circle>`;});
     el.innerHTML=s;
@@ -555,8 +626,8 @@ class Component extends DCLogic {
     const maxP=Math.max(...list.map(d=>d.pubs));
     const r=d3.scaleSqrt().domain([0,maxP]).range([0, isTH?34:(isSouth?32:(sitesThai?30:(isSites?22:30)))]);
     let s=`<defs><filter id="eg" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7"/></filter></defs>`;
-    s+=`<path d="${path(this.land)}" fill="#0f2029" stroke="#1a323d" stroke-width="0.5"/>`;
-    if(isTH||isSouth||sitesThai) s+=`<path d="${path(this.thFeat)}" fill="#15323a" stroke="#2c5a5a" stroke-width="0.8"/>`;
+    s+=`<path class="land" d="${path(this.land)}" fill="#0f2029" stroke="#1a323d" stroke-width="0.5"/>`;
+    if(isTH||isSouth||sitesThai) s+=`<path class="land-th" d="${path(this.thFeat)}" fill="#15323a" stroke="#2c5a5a" stroke-width="0.8"/>`;
     list.forEach(d=>{const p=proj([d.lng,d.lat]);if(!p)return;const rr=Math.max(isTH?6:(isSouth?5:(sitesThai?4:(isSites?3:2.2))),r(d.pubs));const home=d.name==='Thailand';const seld=this.sel&&this.sel.name===d.name;
       let col,ring; if(isSites){col=seld?'#FFE6A8':'#EFA23C';ring='#FFFFFF';}else{col=seld?'#F2C14E':(home?'#34D6B4':'#26AB93');ring='#F2C14E';}
       s+=`<g class="bub" data-name="${(d.name||'').replace(/"/g,'&quot;')}"><circle cx="${p[0]}" cy="${p[1]}" r="${rr*2}" fill="${col}" opacity="${seld?0.34:0.16}" filter="url(#eg)"/><circle cx="${p[0]}" cy="${p[1]}" r="${rr}" fill="${col}" opacity="0.92"/><circle cx="${p[0]}" cy="${p[1]}" r="${Math.max(rr,9)}" fill="transparent"/>`;
@@ -827,7 +898,7 @@ class Component extends DCLogic {
       g+=`<text class="th" x="${tx}" y="${ty+4}" text-anchor="middle" font-family="'IBM Plex Sans Thai',sans-serif" font-size="10.5" font-weight="600" fill="#8296a0">${ringLab[bi][0]}</text>`;
       g+=`<text class="en" x="${tx}" y="${ty+4}" text-anchor="middle" font-family="'IBM Plex Sans Thai',sans-serif" font-size="10.5" font-weight="600" fill="#8296a0">${ringLab[bi][1]}</text>`;
     });
-    g+=`<defs><radialGradient id="hubdark"><stop offset="0%" stop-color="#081019"/><stop offset="58%" stop-color="#081019"/><stop offset="100%" stop-color="#081019" stop-opacity="0"/></radialGradient><radialGradient id="hubteal"><stop offset="0%" stop-color="#34D6B4" stop-opacity="0.2"/><stop offset="100%" stop-color="#34D6B4" stop-opacity="0"/></radialGradient><radialGradient id="coremaskg" gradientUnits="userSpaceOnUse" cx="${cx}" cy="${cy}" r="${hole+54}"><stop offset="0%" stop-color="#000"/><stop offset="44%" stop-color="#000"/><stop offset="100%" stop-color="#fff"/></radialGradient><mask id="coremask"><rect x="0" y="0" width="1000" height="860" fill="url(#coremaskg)"/></mask></defs>`;
+    g+=`<defs><radialGradient id="hubdark"><stop offset="0%" stop-color="#081019"/><stop offset="58%" stop-color="#081019"/><stop offset="100%" stop-color="#081019" stop-opacity="0"/></radialGradient><radialGradient id="hubteal"><stop offset="0%" stop-color="#34D6B4" stop-opacity="0.2"/><stop offset="100%" stop-color="#34D6B4" stop-opacity="0"/></radialGradient><radialGradient data-theme-keep="1" id="coremaskg" gradientUnits="userSpaceOnUse" cx="${cx}" cy="${cy}" r="${hole+54}"><stop offset="0%" stop-color="#000"/><stop offset="44%" stop-color="#000"/><stop offset="100%" stop-color="#fff"/></radialGradient><mask data-theme-keep="1" id="coremask"><rect x="0" y="0" width="1000" height="860" fill="url(#coremaskg)"/></mask></defs>`;
     g+=`<circle cx="${cx}" cy="${cy}" r="${hole+26}" fill="url(#hubdark)"/>`;
     const cMax=Math.max(...kws.map(k=>k.count)), cMin=Math.min(...kws.map(k=>k.count));
     const rDot=c=>9+Math.sqrt((c-cMin)/((cMax-cMin)||1))*17;
@@ -889,7 +960,7 @@ class Component extends DCLogic {
       if(star) dots+=`<circle cx="${x}" cy="${y}" r="${rd*1.9}" fill="${rgba(col,0.22)}"/>`;
       dots+=`<circle class="wdot" data-i="${o.i}" cx="${x}" cy="${y}" r="${rd}" fill="${col}" fill-opacity="${other?0.26:0.32+bright*0.63}" stroke="${star?'#eafff9':'none'}" stroke-width="${star?1.1:0}" style="cursor:pointer"/>`;
     });
-    g+=`<defs><radialGradient id="hubdark"><stop offset="0%" stop-color="#081019"/><stop offset="58%" stop-color="#081019"/><stop offset="100%" stop-color="#081019" stop-opacity="0"/></radialGradient><radialGradient id="hubteal"><stop offset="0%" stop-color="#34D6B4" stop-opacity="0.2"/><stop offset="100%" stop-color="#34D6B4" stop-opacity="0"/></radialGradient><radialGradient id="coremaskg" gradientUnits="userSpaceOnUse" cx="${cx}" cy="${cy}" r="${hole+32}"><stop offset="0%" stop-color="#000"/><stop offset="52%" stop-color="#000"/><stop offset="100%" stop-color="#fff"/></radialGradient><mask id="coremask"><rect x="0" y="0" width="1000" height="860" fill="url(#coremaskg)"/></mask></defs>`;
+    g+=`<defs><radialGradient id="hubdark"><stop offset="0%" stop-color="#081019"/><stop offset="58%" stop-color="#081019"/><stop offset="100%" stop-color="#081019" stop-opacity="0"/></radialGradient><radialGradient id="hubteal"><stop offset="0%" stop-color="#34D6B4" stop-opacity="0.2"/><stop offset="100%" stop-color="#34D6B4" stop-opacity="0"/></radialGradient><radialGradient data-theme-keep="1" id="coremaskg" gradientUnits="userSpaceOnUse" cx="${cx}" cy="${cy}" r="${hole+32}"><stop offset="0%" stop-color="#000"/><stop offset="52%" stop-color="#000"/><stop offset="100%" stop-color="#fff"/></radialGradient><mask data-theme-keep="1" id="coremask"><rect x="0" y="0" width="1000" height="860" fill="url(#coremaskg)"/></mask></defs>`;
     g+=`<g mask="url(#coremask)">`+dots+`</g>`;
     g+=`<circle cx="${cx}" cy="${cy}" r="${hole+24}" fill="url(#hubdark)"/>`;
     g+=`<circle cx="${cx}" cy="${cy}" r="${hole+4}" fill="url(#hubteal)"/>`;
